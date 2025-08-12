@@ -3,4 +3,31 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  justify-content: center;
+  width: 300px;
+  padding: 20px;
+  gap: 20px;
+}
+
+.cell {
+  background-color: transparent;
+  border: 1px solid #000;
+  height: 100px;
+  width: 100px;
+}
+
+.cell-activated {
+  background-color: green;
 }
