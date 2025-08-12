@@ -99,13 +99,14 @@ function MemoryGame() {
       <div className="grid-input">
         <label htmlFor="gridSize">Grid Size: </label>
         <input
-          className=""
           type="number"
           id="gridSize"
           min={2}
-          max={10}
-          value={grid}
-          onChange={handleGridSizeChange}
+          max={8}
+          defaultValue={grid}
+          onChange={(e) => {
+            handleGridSizeChange(e);
+          }}
         />
       </div>
 
