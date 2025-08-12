@@ -3,4 +3,60 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.grid-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.grid {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 4px;
+  border: 2px solid black;
+  padding: 4px;
+  border-radius: 8px;
+  width: 400px;
+  height: 400px;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation-duration: 200;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 4px;
+  font-size: 30px;
+}
+
+.cell-flipped {
+  background-color: lightblue;
+}
+
+.cell-solved {
+  background-color: lightgreen;
+}
+
+.reset-button {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 32px;
+  cursor: pointer;
+  border: 2px solid #888;
 }
