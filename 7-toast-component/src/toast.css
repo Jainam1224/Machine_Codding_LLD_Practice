@@ -21,7 +21,6 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.4;
-  animation: toastSlideIn 0.3s ease-out;
 }
 
 /* Toast Icon */
@@ -130,98 +129,6 @@
   transform: translateX(-50%);
 }
 
-/* Animations */
-.toast-dismissing {
-  animation: toastSlideOut 0.3s ease-in forwards;
-}
-
-@keyframes toastSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes toastSlideOut {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
-/* Position-specific animations */
-.toast.top-left,
-.toast.bottom-left {
-  animation: toastSlideInLeft 0.3s ease-out;
-}
-
-.toast.top-left.toast-dismissing,
-.toast.bottom-left.toast-dismissing {
-  animation: toastSlideOutLeft 0.3s ease-in forwards;
-}
-
-@keyframes toastSlideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes toastSlideOutLeft {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-}
-
-.toast.top-center,
-.toast.bottom-center {
-  animation: toastSlideInTop 0.3s ease-out;
-}
-
-.toast.top-center.toast-dismissing,
-.toast.bottom-center.toast-dismissing {
-  animation: toastSlideOutTop 0.3s ease-in forwards;
-}
-
-@keyframes toastSlideInTop {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-@keyframes toastSlideOutTop {
-  from {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-100%);
-  }
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .toast {
@@ -230,12 +137,12 @@
     margin: 4px;
     padding: 12px;
   }
-
+  
   .toast-icon {
     font-size: 16px;
     margin-right: 8px;
   }
-
+  
   .toast-message {
     font-size: 13px;
   }
@@ -247,15 +154,15 @@
     background: #2d2d2d;
     color: #fff;
   }
-
+  
   .toast-message {
     color: #fff;
   }
-
+  
   .toast-close {
     color: #ccc;
   }
-
+  
   .toast-close:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;

@@ -1,19 +1,18 @@
 /**
- * Simple Toast Component - Clean implementation for LLD interviews
+ * Simple Toast Component
  */
 class Toast {
   constructor() {
-    this.toasts = [];
     this.icons = {
       success: "✓",
       error: "✕",
       warning: "⚠",
       info: "ℹ",
     };
-    this.init();
+    this.createContainer();
   }
 
-  init() {
+  createContainer() {
     if (!document.getElementById("toast-container")) {
       const container = document.createElement("div");
       container.id = "toast-container";
@@ -34,31 +33,16 @@ class Toast {
 
     const container = document.getElementById("toast-container");
     container.appendChild(toast);
-    this.toasts.push(toast);
 
-    // Auto dismiss
     if (duration > 0) {
       setTimeout(() => {
-        this.dismiss(toast);
+        toast.remove();
       }, duration);
     }
 
     return toast;
   }
 
-  dismiss(toast) {
-    if (toast && toast.parentNode) {
-      toast.classList.add("toast-dismissing");
-      setTimeout(() => {
-        if (toast.parentNode) {
-          toast.parentNode.removeChild(toast);
-          this.toasts = this.toasts.filter((t) => t !== toast);
-        }
-      }, 300);
-    }
-  }
-
-  // Convenience methods
   success(message, position = "top-right", duration = 3000) {
     return this.show("success", message, position, duration);
   }
@@ -73,10 +57,6 @@ class Toast {
 
   info(message, position = "top-right", duration = 3000) {
     return this.show("info", message, position, duration);
-  }
-
-  dismissAll() {
-    this.toasts.forEach((toast) => this.dismiss(toast));
   }
 }
 

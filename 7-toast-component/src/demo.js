@@ -1,44 +1,43 @@
 import Toast from "./toast.js";
 
 /**
- * Simple Demo class for LLD interview
- * Demonstrates: Basic toast functionality with position selection
+ * Simple Demo
  */
 class ToastDemo {
   constructor() {
     this.toast = new Toast();
     this.currentPosition = "top-right";
-    this.init();
+    this.setup();
   }
 
-  init() {
-    this.createDemoInterface();
-    this.setupEventListeners();
+  setup() {
+    this.createInterface();
+    this.addListeners();
   }
 
-  createDemoInterface() {
-    const demoHTML = `
+  createInterface() {
+    const html = `
       <div class="demo-container">
         <header class="demo-header">
           <h1>🍞 Toast Component</h1>
-          <p>Simple toast notification system for LLD interviews</p>
+          <p>Simple toast notification system</p>
         </header>
 
         <div class="demo-content">
           <div class="demo-section">
-            <h2>Quick Actions</h2>
+            <h2>Toast Types</h2>
             <div class="button-group">
-              <button class="btn btn-success" data-action="success">Success Toast</button>
-              <button class="btn btn-error" data-action="error">Error Toast</button>
-              <button class="btn btn-warning" data-action="warning">Warning Toast</button>
-              <button class="btn btn-info" data-action="info">Info Toast</button>
+              <button class="btn btn-success" data-type="success">Success</button>
+              <button class="btn btn-error" data-type="error">Error</button>
+              <button class="btn btn-warning" data-type="warning">Warning</button>
+              <button class="btn btn-info" data-type="info">Info</button>
             </div>
           </div>
 
           <div class="demo-section">
-            <h2>Position Selection</h2>
+            <h2>Position</h2>
             <div class="position-selector">
-              <label for="position">Choose Position:</label>
+              <label for="position">Position:</label>
               <select id="position">
                 <option value="top-right">Top Right</option>
                 <option value="top-left">Top Left</option>
@@ -55,29 +54,28 @@ class ToastDemo {
 
     const app = document.getElementById("app");
     if (app) {
-      app.innerHTML = demoHTML;
+      app.innerHTML = html;
     } else {
-      document.body.insertAdjacentHTML("beforeend", demoHTML);
+      document.body.insertAdjacentHTML("beforeend", html);
     }
   }
 
-  setupEventListeners() {
-    // Quick action buttons
-    document.querySelectorAll("[data-action]").forEach((button) => {
+  addListeners() {
+    // Toast buttons
+    document.querySelectorAll("[data-type]").forEach(button => {
       button.addEventListener("click", (e) => {
-        const action = e.target.dataset.action;
+        const type = e.target.dataset.type;
         const messages = {
           success: "Operation completed successfully!",
-          error: "An error occurred while processing your request.",
-          warning: "Please review your input before proceeding.",
-          info: "Here is some helpful information for you.",
+          error: "An error occurred!",
+          warning: "Please check your input!",
+          info: "Here's some information!",
         };
-
-        this.toast[action](messages[action], this.currentPosition);
+        this.toast[type](messages[type], this.currentPosition);
       });
     });
 
-    // Position change handler
+    // Position selector
     document.getElementById("position").addEventListener("change", (e) => {
       this.currentPosition = e.target.value;
     });
