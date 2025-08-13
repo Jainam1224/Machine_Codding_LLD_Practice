@@ -91,8 +91,8 @@ class AutocompleteSearch {
       </div>
     `;
 
-    this.searchInput = this.container.querySelector("#searchInput");
-    this.dropdown = this.container.querySelector("#dropdown");
+    this.searchInput = document.getElementById("searchInput");
+    this.dropdown = document.getElementById("dropdown");
   }
 
   bindEvents() {
@@ -222,6 +222,6 @@ class AutocompleteSearch {
 
 // Initialize the autocomplete search
 document.addEventListener("DOMContentLoaded", () => {
-  const app = document.querySelector("#app");
+  const app = document.getElementById("app");
   new AutocompleteSearch(app, mockData);
 });
