@@ -110,6 +110,14 @@ class AutocompleteSearch {
       }
     });
 
+    // Event delegation for dropdown clicks
+    this.dropdown.addEventListener("click", (e) => {
+      if (e.target.classList.contains("dropdown-item")) {
+        const index = parseInt(e.target.dataset.index);
+        this.selectItem(this.filteredData[index]);
+      }
+    });
+
     // Close dropdown when clicking outside
     document.addEventListener("click", (e) => {
       if (!this.container.contains(e.target)) {
@@ -121,85 +129,64 @@ class AutocompleteSearch {
   handleInput(value) {
     const query = value.toLowerCase().trim();
 
-    if (query === "") {
+    if (!query) {
       this.filteredData = [];
-      this.hideDropdown();
+      this.toggleDropdown(false);
       return;
     }
 
-    // Filter data based on input
     this.filteredData = this.data.filter((item) =>
       item.toLowerCase().startsWith(query)
     );
-
     this.selectedIndex = -1;
 
+    this.toggleDropdown(this.filteredData.length > 0);
     if (this.filteredData.length > 0) {
-      this.showDropdown();
       this.renderDropdown();
-    } else {
-      this.hideDropdown();
     }
   }
 
   handleKeydown(e) {
     if (!this.isDropdownVisible) return;
 
-    switch (e.key) {
-      case "ArrowDown":
+    const actions = {
+      ArrowDown: () => {
         e.preventDefault();
         this.selectedIndex = Math.min(
           this.selectedIndex + 1,
           this.filteredData.length - 1
         );
         this.renderDropdown();
-        break;
-
-      case "ArrowUp":
+      },
+      ArrowUp: () => {
         e.preventDefault();
         this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
         this.renderDropdown();
-        break;
-
-      case "Enter":
+      },
+      Enter: () => {
         e.preventDefault();
         if (this.selectedIndex >= 0) {
           this.selectItem(this.filteredData[this.selectedIndex]);
         }
-        break;
-
-      case "Escape":
-        this.hideDropdown();
+      },
+      Escape: () => {
+        this.toggleDropdown(false);
         this.searchInput.blur();
-        break;
-    }
+      },
+    };
+
+    actions[e.key]?.();
   }
 
   renderDropdown() {
-    if (this.filteredData.length === 0) {
-      this.dropdown.innerHTML = "";
-      return;
-    }
-
-    const dropdownHTML = this.filteredData
-      .map((item, index) => {
-        const isSelected = index === this.selectedIndex;
-        const className = isSelected
-          ? "dropdown-item selected"
-          : "dropdown-item";
-
-        return `<div class="${className}" data-index="${index}">${item}</div>`;
-      })
+    this.dropdown.innerHTML = this.filteredData
+      .map(
+        (item, index) =>
+          `<div class="dropdown-item${
+            index === this.selectedIndex ? " selected" : ""
+          }" data-index="${index}">${item}</div>`
+      )
       .join("");
-
-    this.dropdown.innerHTML = dropdownHTML;
-
-    // Add click events to dropdown items
-    this.dropdown.querySelectorAll(".dropdown-item").forEach((item, index) => {
-      item.addEventListener("click", () => {
-        this.selectItem(this.filteredData[index]);
-      });
-    });
   }
 
   selectItem(item) {
@@ -217,6 +204,12 @@ class AutocompleteSearch {
     this.dropdown.style.display = "none";
     this.isDropdownVisible = false;
     this.selectedIndex = -1;
+  }
+
+  toggleDropdown(show) {
+    this.dropdown.style.display = show ? "block" : "none";
+    this.isDropdownVisible = show;
+    if (!show) this.selectedIndex = -1;
   }
 }
 
