@@ -56,10 +56,13 @@ class GridLightsGame {
       .getElementById("resetBtn")
       .addEventListener("click", () => this.resetGame());
 
-    // Cell click events - only for visible cells
-    const cells = document.querySelectorAll(".cell:not(.hidden)");
-    cells.forEach((cell) => {
-      cell.addEventListener("click", () => this.handleCellClick(cell));
+    // Use event delegation for cell clicks - more efficient
+    const gridContainer = document.getElementById("grid-container");
+    gridContainer.addEventListener("click", (event) => {
+      const cell = event.target.closest(".cell");
+      if (cell && !cell.classList.contains("hidden")) {
+        this.handleCellClick(cell);
+      }
     });
   }
 
@@ -89,6 +92,10 @@ class GridLightsGame {
     // Add to activation order
     this.order.push(index);
 
+    // Show order number on the cell
+    const orderNumber = this.order.length;
+    cell.textContent = orderNumber;
+
     this.updateStatus();
   }
 
@@ -103,9 +110,7 @@ class GridLightsGame {
         // All cells deactivated
         clearInterval(this.deactivationInterval);
         this.isDeactivating = false;
-        this.updateStatus(
-          "All cells deactivated! Click cells again to restart."
-        );
+        this.updateStatus("Deactivated! Click cells again to restart.");
       }
     }, 300);
   }
@@ -118,10 +123,15 @@ class GridLightsGame {
       cell.classList.remove("active");
       cell.classList.add("deactivating");
 
+      // Show deactivation order (reverse of activation order)
+      const deactivationOrder = this.order.length + 1;
+      cell.textContent = `${deactivationOrder}`;
+
       // Remove deactivating class after animation
       setTimeout(() => {
         cell.classList.remove("deactivating");
         cell.classList.add("inactive");
+        cell.textContent = ""; // Clear the number
       }, 300);
     }
   }
@@ -140,6 +150,7 @@ class GridLightsGame {
     cells.forEach((cell) => {
       cell.classList.remove("active", "deactivating");
       cell.classList.add("inactive");
+      cell.textContent = ""; // Clear any order numbers
     });
 
     this.updateStatus();
@@ -172,6 +183,3 @@ class GridLightsGame {
 document.addEventListener("DOMContentLoaded", () => {
   new GridLightsGame();
 });
-
-// Export for potential testing
-export default GridLightsGame;
