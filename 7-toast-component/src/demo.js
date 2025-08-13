@@ -35,7 +35,7 @@ class ToastDemo {
           </div>
 
           <div class="demo-section">
-            <h2>Position</h2>
+            <h2>Select Toast Position</h2>
             <div class="position-selector">
               <label for="position">Position:</label>
               <select id="position">
