@@ -1,10 +1,12 @@
 import "./style.css";
 
+// Constants
 const API_URL = "https://picsum.photos/v2/list";
 const IMAGES_COUNT = 10;
 const AUTOPLAY_INTERVAL = 3000; // 3 seconds
-
-let isLoading = false;
+const TRANSITION_DURATION = 300; // milliseconds
+const AUTOPLAY_RESTART_DELAY = 350; // milliseconds
+const INITIAL_VISIBLE_IMAGES = 2; // Number of images to load initially
 
 class ImageCarousel {
   constructor() {
@@ -12,6 +14,7 @@ class ImageCarousel {
     this.currentIndex = 0;
     this.autoplayInterval = null;
     this.isTransitioning = false;
+    this.isLoading = false;
 
     this.init();
   }
@@ -28,36 +31,35 @@ class ImageCarousel {
     }
   }
 
-  fetchImages() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        isLoading = true;
-        this.showLoading();
+  async fetchImages() {
+    try {
+      this.isLoading = true;
+      this.showLoading();
 
-        const response = await fetch(`${API_URL}?limit=${IMAGES_COUNT}`);
+      const response = await fetch(`${API_URL}?limit=${IMAGES_COUNT}`);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data) || data.length === 0) {
-          throw new Error("No images received from API");
-        }
-
-        this.images = data.map((image, index) => ({
-          id: index,
-          src: image.download_url,
-          alt: image.author,
-        }));
-
-        resolve(this.images);
-      } catch (error) {
-        isLoading = false;
-        reject(new Error(`Failed to fetch images: ${error.message}`));
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    });
+
+      const data = await response.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error("No images received from API");
+      }
+
+      this.images = data.map((image, index) => ({
+        id: index,
+        src: image.download_url,
+        alt: image.author,
+      }));
+
+      return this.images;
+    } catch (error) {
+      throw new Error(`Failed to fetch images: ${error.message}`);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   showLoading() {
@@ -97,7 +99,7 @@ class ImageCarousel {
     // Render all image containers but only load visible images
     carouselItems.innerHTML = this.images
       .map((image, index) => {
-        const isVisible = index === 0 || index === 1; // Only load first 2 images initially
+        const isVisible = index < INITIAL_VISIBLE_IMAGES;
         return `
           <div class="carousel-item" data-index="${index}">
             ${isVisible ? `<img src="${image.src}" alt="${image.alt}" />` : ""}
@@ -146,15 +148,16 @@ class ImageCarousel {
     // Reset transition flag after animation
     setTimeout(() => {
       this.isTransitioning = false;
-    }, 300);
+    }, TRANSITION_DURATION);
   }
 
   loadVisibleImages(currentIndex) {
     // Load current image and adjacent images
     const indicesToLoad = [currentIndex];
     if (currentIndex > 0) indicesToLoad.push(currentIndex - 1);
-    if (currentIndex < this.images.length - 1)
+    if (currentIndex < this.images.length - 1) {
       indicesToLoad.push(currentIndex + 1);
+    }
 
     indicesToLoad.forEach((index) => {
       const container = document.querySelector(`[data-index="${index}"]`);
@@ -177,7 +180,6 @@ class ImageCarousel {
   }
 
   startAutoplay() {
-    // Clear any existing interval first
     this.stopAutoplay();
     this.autoplayInterval = setInterval(() => {
       this.next();
@@ -191,6 +193,14 @@ class ImageCarousel {
     }
   }
 
+  // Helper method to handle navigation with autoplay management
+  handleNavigation(action) {
+    this.stopAutoplay();
+    action();
+    // Delay restarting autoplay to avoid conflicts
+    setTimeout(() => this.startAutoplay(), AUTOPLAY_RESTART_DELAY);
+  }
+
   initEvents() {
     // Navigation buttons
     const prevBtn = document.getElementById("prev-btn");
@@ -199,19 +209,13 @@ class ImageCarousel {
     prevBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.stopAutoplay();
-      this.prev();
-      // Delay restarting autoplay to avoid conflicts
-      setTimeout(() => this.startAutoplay(), 350);
+      this.handleNavigation(() => this.prev());
     });
 
     nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.stopAutoplay();
-      this.next();
-      // Delay restarting autoplay to avoid conflicts
-      setTimeout(() => this.startAutoplay(), 350);
+      this.handleNavigation(() => this.next());
     });
 
     // Dot navigation
@@ -221,10 +225,7 @@ class ImageCarousel {
         e.preventDefault();
         e.stopPropagation();
         const index = parseInt(e.target.dataset.index);
-        this.stopAutoplay();
-        this.goToImage(index);
-        // Delay restarting autoplay to avoid conflicts
-        setTimeout(() => this.startAutoplay(), 350);
+        this.handleNavigation(() => this.goToImage(index));
       }
     });
 
