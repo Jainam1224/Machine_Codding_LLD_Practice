@@ -1,13 +1,35 @@
 /**
+ * Toast Types Enum
+ */
+export const ToastType = {
+  SUCCESS: "success",
+  ERROR: "error",
+  WARNING: "warning",
+  INFO: "info",
+};
+
+/**
+ * Toast Positions Enum
+ */
+export const ToastPosition = {
+  TOP_RIGHT: "top-right",
+  TOP_LEFT: "top-left",
+  TOP_CENTER: "top-center",
+  BOTTOM_RIGHT: "bottom-right",
+  BOTTOM_LEFT: "bottom-left",
+  BOTTOM_CENTER: "bottom-center",
+};
+
+/**
  * Simple Toast Component
  */
 class Toast {
   constructor() {
     this.icons = {
-      success: "✓",
-      error: "✕",
-      warning: "⚠",
-      info: "ℹ",
+      [ToastType.SUCCESS]: "✅",
+      [ToastType.ERROR]: "❌",
+      [ToastType.WARNING]: "⚠️",
+      [ToastType.INFO]: "ℹ",
     };
     this.createContainer();
   }
@@ -21,7 +43,7 @@ class Toast {
     }
   }
 
-  show(type, message, position = "top-right", duration = 3000) {
+  show(type, message, position = ToastPosition.TOP_RIGHT, duration = 3000) {
     const toast = document.createElement("div");
     toast.className = `toast ${type} ${position}`;
 
@@ -43,20 +65,20 @@ class Toast {
     return toast;
   }
 
-  success(message, position = "top-right", duration = 3000) {
-    return this.show("success", message, position, duration);
+  success(message, position = ToastPosition.TOP_RIGHT, duration = 3000) {
+    return this.show(ToastType.SUCCESS, message, position, duration);
   }
 
-  error(message, position = "top-right", duration = 3000) {
-    return this.show("error", message, position, duration);
+  error(message, position = ToastPosition.TOP_RIGHT, duration = 3000) {
+    return this.show(ToastType.ERROR, message, position, duration);
   }
 
-  warning(message, position = "top-right", duration = 3000) {
-    return this.show("warning", message, position, duration);
+  warning(message, position = ToastPosition.TOP_RIGHT, duration = 3000) {
+    return this.show(ToastType.WARNING, message, position, duration);
   }
 
-  info(message, position = "top-right", duration = 3000) {
-    return this.show("info", message, position, duration);
+  info(message, position = ToastPosition.TOP_RIGHT, duration = 3000) {
+    return this.show(ToastType.INFO, message, position, duration);
   }
 }
 

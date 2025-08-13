@@ -1,4 +1,4 @@
-import Toast from "./toast.js";
+import Toast, { ToastType, ToastPosition } from "./toast.js";
 
 /**
  * Simple Demo
@@ -6,7 +6,7 @@ import Toast from "./toast.js";
 class ToastDemo {
   constructor() {
     this.toast = new Toast();
-    this.currentPosition = "top-right";
+    this.currentPosition = ToastPosition.TOP_RIGHT;
     this.setup();
   }
 
@@ -27,10 +27,10 @@ class ToastDemo {
           <div class="demo-section">
             <h2>Toast Types</h2>
             <div class="button-group">
-              <button class="btn btn-success" data-type="success">Success</button>
-              <button class="btn btn-error" data-type="error">Error</button>
-              <button class="btn btn-warning" data-type="warning">Warning</button>
-              <button class="btn btn-info" data-type="info">Info</button>
+              <button class="btn btn-success" data-type="${ToastType.SUCCESS}">Success</button>
+              <button class="btn btn-error" data-type="${ToastType.ERROR}">Error</button>
+              <button class="btn btn-warning" data-type="${ToastType.WARNING}">Warning</button>
+              <button class="btn btn-info" data-type="${ToastType.INFO}">Info</button>
             </div>
           </div>
 
@@ -39,12 +39,12 @@ class ToastDemo {
             <div class="position-selector">
               <label for="position">Position:</label>
               <select id="position">
-                <option value="top-right">Top Right</option>
-                <option value="top-left">Top Left</option>
-                <option value="top-center">Top Center</option>
-                <option value="bottom-right">Bottom Right</option>
-                <option value="bottom-left">Bottom Left</option>
-                <option value="bottom-center">Bottom Center</option>
+                <option value="${ToastPosition.TOP_RIGHT}">Top Right</option>
+                <option value="${ToastPosition.TOP_LEFT}">Top Left</option>
+                <option value="${ToastPosition.TOP_CENTER}">Top Center</option>
+                <option value="${ToastPosition.BOTTOM_RIGHT}">Bottom Right</option>
+                <option value="${ToastPosition.BOTTOM_LEFT}">Bottom Left</option>
+                <option value="${ToastPosition.BOTTOM_CENTER}">Bottom Center</option>
               </select>
             </div>
           </div>
@@ -56,7 +56,11 @@ class ToastDemo {
     if (app) {
       app.innerHTML = html;
     } else {
-      document.body.insertAdjacentHTML("beforeend", html);
+      // Create app container if it doesn't exist (fallback)
+      const appContainer = document.createElement("div");
+      appContainer.id = "app";
+      appContainer.innerHTML = html;
+      document.body.appendChild(appContainer);
     }
   }
 
@@ -66,10 +70,10 @@ class ToastDemo {
       button.addEventListener("click", (e) => {
         const type = e.target.dataset.type;
         const messages = {
-          success: "Operation completed successfully!",
-          error: "An error occurred!",
-          warning: "Please check your input!",
-          info: "Here's some information!",
+          [ToastType.SUCCESS]: "Operation completed successfully!",
+          [ToastType.ERROR]: "An error occurred!",
+          [ToastType.WARNING]: "Please check your input!",
+          [ToastType.INFO]: "Here's some information!",
         };
         this.toast[type](messages[type], this.currentPosition);
       });
