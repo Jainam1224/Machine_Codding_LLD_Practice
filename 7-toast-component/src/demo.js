@@ -62,7 +62,7 @@ class ToastDemo {
 
   addListeners() {
     // Toast buttons
-    document.querySelectorAll("[data-type]").forEach(button => {
+    document.querySelectorAll("[data-type]").forEach((button) => {
       button.addEventListener("click", (e) => {
         const type = e.target.dataset.type;
         const messages = {
