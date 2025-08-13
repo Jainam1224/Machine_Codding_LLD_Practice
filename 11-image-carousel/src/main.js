@@ -94,12 +94,13 @@ class ImageCarousel {
   renderImages() {
     const carouselItems = document.getElementById("carousel-items");
 
-    // Render all images for smooth transitions
+    // Render all image containers but only load visible images
     carouselItems.innerHTML = this.images
       .map((image, index) => {
+        const isVisible = index === 0 || index === 1; // Only load first 2 images initially
         return `
           <div class="carousel-item" data-index="${index}">
-            <img src="${image.src}" alt="${image.alt}" />
+            ${isVisible ? `<img src="${image.src}" alt="${image.alt}" />` : ""}
           </div>
         `;
       })
@@ -135,6 +136,9 @@ class ImageCarousel {
     this.isTransitioning = true;
     this.currentIndex = index;
 
+    // Load images that will be visible
+    this.loadVisibleImages(index);
+
     // Update transform for smooth transition
     this.updateTransform();
     this.updateActiveDot();
@@ -143,6 +147,22 @@ class ImageCarousel {
     setTimeout(() => {
       this.isTransitioning = false;
     }, 300);
+  }
+
+  loadVisibleImages(currentIndex) {
+    // Load current image and adjacent images
+    const indicesToLoad = [currentIndex];
+    if (currentIndex > 0) indicesToLoad.push(currentIndex - 1);
+    if (currentIndex < this.images.length - 1)
+      indicesToLoad.push(currentIndex + 1);
+
+    indicesToLoad.forEach((index) => {
+      const container = document.querySelector(`[data-index="${index}"]`);
+      if (container && !container.querySelector("img")) {
+        const image = this.images[index];
+        container.innerHTML = `<img src="${image.src}" alt="${image.alt}" />`;
+      }
+    });
   }
 
   next() {
@@ -176,26 +196,35 @@ class ImageCarousel {
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
 
-    prevBtn.addEventListener("click", () => {
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       this.stopAutoplay();
       this.prev();
-      this.startAutoplay();
+      // Delay restarting autoplay to avoid conflicts
+      setTimeout(() => this.startAutoplay(), 350);
     });
 
-    nextBtn.addEventListener("click", () => {
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       this.stopAutoplay();
       this.next();
-      this.startAutoplay();
+      // Delay restarting autoplay to avoid conflicts
+      setTimeout(() => this.startAutoplay(), 350);
     });
 
     // Dot navigation
     const dotsContainer = document.getElementById("carousel-dots");
     dotsContainer.addEventListener("click", (e) => {
       if (e.target.classList.contains("dot")) {
+        e.preventDefault();
+        e.stopPropagation();
         const index = parseInt(e.target.dataset.index);
         this.stopAutoplay();
         this.goToImage(index);
-        this.startAutoplay();
+        // Delay restarting autoplay to avoid conflicts
+        setTimeout(() => this.startAutoplay(), 350);
       }
     });
 
