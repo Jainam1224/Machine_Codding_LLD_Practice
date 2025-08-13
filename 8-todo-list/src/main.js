@@ -62,7 +62,18 @@ class TodoList {
 
   render() {
     const todoList = document.getElementById("todoList");
+    const emptyMessage = document.getElementById("emptyMessage");
+
     todoList.innerHTML = "";
+
+    // Show/hide empty message based on todos count
+    if (this.todos.length === 0) {
+      todoList.style.display = "none";
+      emptyMessage.style.display = "block";
+    } else {
+      todoList.style.display = "block";
+      emptyMessage.style.display = "none";
+    }
 
     this.todos.forEach((todo) => {
       const li = document.createElement("li");
