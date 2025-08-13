@@ -12,9 +12,7 @@ let error = null;
 class PaginationApp {
   constructor() {
     this.currentPage = 1;
-    this.itemsPerPage = PRODUCTS_PER_PAGE;
     this.totalPages = 0;
-    this.app = document.getElementById("app");
     this.init();
   }
 
@@ -40,7 +38,7 @@ class PaginationApp {
         body: post.body,
       }));
 
-      this.totalPages = Math.ceil(products.length / this.itemsPerPage);
+      this.totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
       error = null;
     } catch (err) {
       error = "Failed to fetch products. Please try again.";
@@ -51,8 +49,8 @@ class PaginationApp {
   }
 
   getCurrentPageProducts() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
+    const startIndex = (this.currentPage - 1) * PRODUCTS_PER_PAGE;
+    const endIndex = startIndex + PRODUCTS_PER_PAGE;
     return products.slice(startIndex, endIndex);
   }
 
@@ -88,7 +86,6 @@ class PaginationApp {
     pages.push(`
       <button 
         class="pagination-btn ${this.currentPage === 1 ? "disabled" : ""}" 
-        ${this.currentPage === 1 ? "disabled" : ""}
         onclick="app.goToPage(${this.currentPage - 1})"
       >
         Previous
@@ -121,7 +118,6 @@ class PaginationApp {
         class="pagination-btn ${
           this.currentPage === this.totalPages ? "disabled" : ""
         }" 
-        ${this.currentPage === this.totalPages ? "disabled" : ""}
         onclick="app.goToPage(${this.currentPage + 1})"
       >
         Next
@@ -136,7 +132,8 @@ class PaginationApp {
   }
 
   render() {
-    this.app.innerHTML = `
+    const app = document.getElementById("app");
+    app.innerHTML = `
       <div class="container">
         <header>
           <h1>Product Pagination Demo</h1>
