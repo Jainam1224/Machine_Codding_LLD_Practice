@@ -1,0 +1,55 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #213547;
+  background-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2.5em;
+  line-height: 1.1;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+#app {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#checkbox-container {
+  text-align: left;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#checkbox-container div {
+  margin-bottom: 8px;
+}
+
+#checkbox-container label {
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
+
+#checkbox-container input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+#checkbox-container input[type="checkbox"]:checked {
+  accent-color: #646cff;
+}
