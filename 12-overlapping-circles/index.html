@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Circle Drawing</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Interactive Circle Drawing</h1>
+        <p class="instructions">
+          <strong>Left Click + Drag:</strong> Draw first circle |
+          <strong>Right Click + Drag:</strong> Draw second circle |
+          <strong>Left Click (no drag):</strong> Clear circles
+        </p>
+      </header>
+      <main>
+        <canvas id="canvas" width="800" height="600"></canvas>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
