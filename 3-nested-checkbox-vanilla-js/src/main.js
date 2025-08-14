@@ -125,35 +125,35 @@ const data = [
 
 class NestedCheckbox {
   constructor() {
-    this.checkboxState = JSON.parse(JSON.stringify(data));
+    this.checkboxState = JSON.parse(JSON.stringify(data)); // creates the copy of data so "data" remains immutable.
     this.init();
   }
 
   init() {
     this.render();
-    this.attachEventListeners();
   }
 
   computeStatus(node) {
-    if (!node.children || !node.children.length > 0) {
+    if (!node.children?.length) {
       return;
     }
 
-    let checkedCount = 0;
-    let uncheckedCount = 0;
-    let indeterminateCount = 0;
+    // Optimized: Use reduce for single-pass counting instead of multiple forEach loops
+    const statusCounts = node.children.reduce((acc, child) => {
+      acc[child.status] = (acc[child.status] || 0) + 1;
+      return acc;
+    }, {});
 
-    node.children.forEach((child) => {
-      if (child.status === STATUS.CHECKED) checkedCount++;
-      if (child.status === STATUS.UNCHECKED) uncheckedCount++;
-      if (child.status === STATUS.INDETERMINATE) indeterminateCount++;
-    });
+    const totalChildren = node.children.length;
 
-    if (checkedCount === node.children.length) {
+    if (statusCounts[STATUS.CHECKED] === totalChildren) {
       node.status = STATUS.CHECKED;
-    } else if (uncheckedCount === node.children.length) {
+    } else if (statusCounts[STATUS.UNCHECKED] === totalChildren) {
       node.status = STATUS.UNCHECKED;
-    } else if (checkedCount > 0 || indeterminateCount > 0) {
+    } else if (
+      statusCounts[STATUS.CHECKED] > 0 ||
+      statusCounts[STATUS.INDETERMINATE] > 0
+    ) {
       node.status = STATUS.INDETERMINATE;
     }
   }
@@ -194,7 +194,6 @@ class NestedCheckbox {
 
     this.checkboxState = cloneCheckboxState;
     this.render();
-    this.attachEventListeners();
   }
 
   createCheckboxElement(item, level = 0) {
@@ -251,11 +250,6 @@ class NestedCheckbox {
     });
 
     app.appendChild(container);
-  }
-
-  attachEventListeners() {
-    // Event listeners are already attached in createCheckboxElement
-    // This method is kept for consistency with the React version structure
   }
 }
 
