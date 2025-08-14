@@ -1,0 +1,37 @@
+body {
+  font-family: sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  column-gap: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  width: 600px;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.bar {
+  background-color: #ccc;
+  height: 8px;
+}
+
+.bar-contents {
+  background-color: green;
+  height: 100%;
+  transform-origin: left;
+}
