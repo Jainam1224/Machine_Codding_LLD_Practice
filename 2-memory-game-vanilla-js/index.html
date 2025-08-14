@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Game</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Memory Game</h1>
+      <div class="wrapper">
+        <div class="grid-input">
+          <label for="gridSize">Grid Size: </label>
+          <input type="number" id="gridSize" min="2" max="8" value="4" />
+        </div>
+
+        <div id="grid" class="grid"></div>
+
+        <div id="winMessage" class="win-message" style="display: none">
+          You Won the Game!
+        </div>
+
+        <button id="resetButton" class="reset-button">Reset</button>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
