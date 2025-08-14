@@ -1,0 +1,137 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+#app {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Main heading */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Main input container */
+.main-input-container {
+  background: white;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+/* Comments container */
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Individual comment */
+.comment {
+  background: white;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+/* Comment content */
+.comment-content {
+  margin-bottom: 10px;
+}
+
+/* Comment info */
+.comment-info {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+/* Comment actions */
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.comment-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.comment-button:hover {
+  background: #0056b3;
+}
+
+/* Add comment section */
+.add-comment {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+/* Textarea */
+.comment-textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Replies container */
+.replies-container {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid #eee;
+}
+
+.replies-container .comment {
+  margin-bottom: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .comment-actions {
+    flex-direction: column;
+  }
+
+  .comment-button {
+    width: 100%;
+  }
+
+  .replies-container {
+    padding-left: 10px;
+  }
+}

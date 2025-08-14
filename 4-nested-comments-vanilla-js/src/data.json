@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "content": "This is a great post!",
+    "votes": 5,
+    "timestamp": "2024-01-15T10:30:00.000Z",
+    "replies": [
+      {
+        "id": 2,
+        "content": "I completely agree with you!",
+        "votes": 3,
+        "timestamp": "2024-01-15T11:00:00.000Z",
+        "replies": [
+          {
+            "id": 4,
+            "content": "Me too! This is exactly what I was thinking.",
+            "votes": 1,
+            "timestamp": "2024-01-15T11:30:00.000Z",
+            "replies": []
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "content": "Thanks for sharing this perspective.",
+        "votes": 2,
+        "timestamp": "2024-01-15T12:00:00.000Z",
+        "replies": []
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "content": "Interesting point of view. I have some questions though.",
+    "votes": 4,
+    "timestamp": "2024-01-15T13:00:00.000Z",
+    "replies": []
+  }
+]
