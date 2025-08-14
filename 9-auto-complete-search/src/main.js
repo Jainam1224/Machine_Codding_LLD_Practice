@@ -67,32 +67,9 @@ class AutocompleteSearch {
   }
 
   init() {
-    this.render();
-    this.bindEvents();
-  }
-
-  render() {
-    this.container.innerHTML = `
-      <div class="autocomplete-container">
-        <h1>Name Autocomplete Search</h1>
-        <div class="search-wrapper">
-          <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Type a name to search..."
-            autocomplete="off"
-          >
-          <div id="dropdown" class="dropdown"></div>
-        </div>
-        <div class="info">
-          <p>Start typing to see autocomplete suggestions</p>
-          <p>Use arrow keys to navigate, Enter to select, Esc to close</p>
-        </div>
-      </div>
-    `;
-
     this.searchInput = document.getElementById("searchInput");
     this.dropdown = document.getElementById("dropdown");
+    this.bindEvents();
   }
 
   bindEvents() {
@@ -136,7 +113,7 @@ class AutocompleteSearch {
     }
 
     this.filteredData = this.data.filter((item) =>
-      item.toLowerCase().startsWith(query)
+      item.toLowerCase().includes(query)
     );
     this.selectedIndex = -1;
 

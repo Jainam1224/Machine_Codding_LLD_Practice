@@ -7,7 +7,24 @@
     <title>Name Autocomplete Search</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="autocomplete-container">
+        <h1>Name Autocomplete Search</h1>
+        <div class="search-wrapper">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Type a name to search..."
+            autocomplete="off"
+          />
+          <div id="dropdown" class="dropdown"></div>
+        </div>
+        <div class="info">
+          <p>Start typing to see autocomplete suggestions</p>
+          <p>Use arrow keys to navigate, Enter to select, Esc to close</p>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
