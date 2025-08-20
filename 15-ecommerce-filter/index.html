@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Filter App</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Product Catalog</h1>
+
+      <!-- Main layout with sidebar for filters -->
+      <div class="main-content-grid">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar">
+          <h2>Filters</h2>
+
+          <!-- Category Filter -->
+          <div class="filter-group">
+            <label for="category-filter">Category</label>
+            <select id="category-filter" class="filter-select">
+              <option value="all">All</option>
+              <option value="electronics">Electronics</option>
+              <option value="clothing">Clothing</option>
+              <option value="books">Books</option>
+              <option value="home">Home</option>
+            </select>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-group">
+            <label for="price-filter">Max Price</label>
+            <input
+              type="range"
+              id="price-filter"
+              min="10"
+              max="500"
+              value="500"
+              class="filter-range"
+            />
+            <div class="price-display">
+              <span>$10</span>
+              <span>$<span id="price-value">500</span></span>
+            </div>
+          </div>
+
+          <!-- Color Filter -->
+          <div class="filter-group">
+            <label>Color</label>
+            <div class="color-options">
+              <button class="filter-color red" data-color="red"></button>
+              <button class="filter-color blue" data-color="blue"></button>
+              <button class="filter-color green" data-color="green"></button>
+              <button class="filter-color black" data-color="black"></button>
+              <button class="filter-color white" data-color="white"></button>
+            </div>
+          </div>
+
+          <!-- Clear Filters Button -->
+          <button id="clear-filters-btn" class="clear-btn">
+            Clear Filters
+          </button>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="product-main">
+          <div id="product-grid" class="product-grid">
+            <!-- Products will be rendered here by JavaScript -->
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
