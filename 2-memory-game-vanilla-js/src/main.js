@@ -30,6 +30,15 @@ class MemoryGame {
     this.resetButton.addEventListener("click", () => {
       this.generateGame(this.grid);
     });
+
+    // *** EVENT DELEGATION: ATTACH ONE LISTENER TO THE PARENT CONTAINER ***
+    this.gridElement.addEventListener("click", (e) => {
+      const cell = e.target.closest(".cell");
+      if (cell) {
+        const id = parseInt(cell.dataset.id, 10);
+        this.handleCardClick(id);
+      }
+    });
   }
 
   handleGridSizeChange(event) {
@@ -150,9 +159,13 @@ class MemoryGame {
       // Show number if card is visible (flipped or solved), otherwise show "?"
       cardElement.textContent = this.isVisible(card.id) ? card.number : "?";
 
-      cardElement.addEventListener("click", () =>
-        this.handleCardClick(card.id)
-      );
+      // *** ADD DATA ATTRIBUTE FOR EVENT DELEGATION ***
+      cardElement.dataset.id = card.id;
+
+      // <----- INDIVIDUAL EVENT HANDLER ----->
+      // cardElement.addEventListener("click", () =>
+      //   this.handleCardClick(card.id)
+      // );
 
       this.gridElement.appendChild(cardElement);
     });
