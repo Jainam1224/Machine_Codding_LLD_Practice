@@ -2,12 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nested Comments - Vanilla JS</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="app" class="container">
+      <h1>Nested Comments</h1>
+      <div class="main-input-container">
+        <textarea
+          id="main-textarea"
+          class="comment-textarea"
+          placeholder="Add a new comment..."
+          rows="3"
+          cols="50"
+        ></textarea>
+        <button class="comment-button" data-action="submit-main-comment">
+          Add Comment
+        </button>
+      </div>
+      <div id="comments-container"></div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
