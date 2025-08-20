@@ -126,11 +126,22 @@ const data = [
 class NestedCheckbox {
   constructor() {
     this.checkboxState = JSON.parse(JSON.stringify(data)); // creates the copy of data so "data" remains immutable.
+    this.container = document.getElementById("checkbox-container");
     this.init();
   }
 
   init() {
+    this.setupEventListeners();
     this.render();
+  }
+
+  setupEventListeners() {
+    // Attach a single change listener to the main container.
+    this.container.addEventListener("change", (event) => {
+      if (event.target.type === "checkbox") {
+        this.handleChange(event.target.id);
+      }
+    });
   }
 
   computeStatus(node) {
@@ -207,8 +218,8 @@ class NestedCheckbox {
     checkbox.type = "checkbox";
     checkbox.id = item.id;
     checkbox.checked = item.status === STATUS.CHECKED;
+    checkbox.setAttribute("data-id", item.id);
 
-    // Set indeterminate state
     if (item.status === STATUS.INDETERMINATE) {
       checkbox.indeterminate = true;
     }
@@ -221,10 +232,10 @@ class NestedCheckbox {
     checkboxContainer.appendChild(label);
     container.appendChild(checkboxContainer);
 
-    // Add event listener
-    checkbox.addEventListener("change", () => {
-      this.handleChange(item.id);
-    });
+    // Add event listener (INDIVIDUAL CLICK HANDLER - WE CAN USE EVENT DELEGATION)
+    // checkbox.addEventListener("change", () => {
+    //   this.handleChange(item.id);
+    // });
 
     // Add children if they exist
     if (item.children && item.children.length > 0) {
@@ -238,18 +249,13 @@ class NestedCheckbox {
   }
 
   render() {
-    const app = document.querySelector("#app");
-    app.innerHTML = "<h1>Nested CheckBoxes</h1>";
-
-    const container = document.createElement("div");
-    container.id = "checkbox-container";
+    // Clear the container before re-rendering the entire tree.
+    this.container.innerHTML = "";
 
     this.checkboxState.forEach((item) => {
       const element = this.createCheckboxElement(item);
-      container.appendChild(element);
+      this.container.appendChild(element);
     });
-
-    app.appendChild(container);
   }
 }
 
