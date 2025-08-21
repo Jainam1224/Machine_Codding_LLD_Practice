@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Single Option Poll Widget</title>
+    <link rel="stylesheet" href="poll-styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Single Option Poll</h1>
+
+      <div class="poll-container">
+        <h2>What's your favorite programming language?</h2>
+
+        <div class="options">
+          <div class="option">
+            <input type="radio" name="poll" id="js" value="JavaScript" />
+            <label for="js">JavaScript</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="radio" name="poll" id="py" value="Python" />
+            <label for="py">Python</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="radio" name="poll" id="java" value="Java" />
+            <label for="java">Java</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="radio" name="poll" id="cpp" value="C++" />
+            <label for="cpp">C++</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="voteBtn" class="vote-btn" disabled>Vote</button>
+
+        <div class="total-votes">
+          Total Votes: <span id="totalVotes">0</span>
+        </div>
+      </div>
+
+      <div class="navigation">
+        <a href="multiple-poll.html" class="nav-link"
+          >Go to Multiple Option Poll</a
+        >
+      </div>
+    </div>
+
+    <script src="poll-single.js"></script>
+  </body>
+</html>

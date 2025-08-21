@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiple Option Poll Widget</title>
+    <link rel="stylesheet" href="poll-styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Multiple Option Poll</h1>
+
+      <div class="poll-container">
+        <h2>Which technologies have you worked with?</h2>
+
+        <div class="options">
+          <div class="option">
+            <input type="checkbox" name="poll" id="react" value="React" />
+            <label for="react">React</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" name="poll" id="vue" value="Vue" />
+            <label for="vue">Vue</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" name="poll" id="angular" value="Angular" />
+            <label for="angular">Angular</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" name="poll" id="node" value="Node.js" />
+            <label for="node">Node.js</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" name="poll" id="python" value="Python" />
+            <label for="python">Python</label>
+            <div class="vote-count">0 votes</div>
+            <div class="progress-bar">
+              <div class="progress" data-value="0"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="voteBtn" class="vote-btn" disabled>Vote</button>
+
+        <div class="total-votes">
+          Total Votes: <span id="totalVotes">0</span>
+        </div>
+      </div>
+
+      <div class="navigation">
+        <a href="single-poll.html" class="nav-link">Go to Single Option Poll</a>
+      </div>
+    </div>
+
+    <script src="poll-multiple.js"></script>
+  </body>
+</html>
