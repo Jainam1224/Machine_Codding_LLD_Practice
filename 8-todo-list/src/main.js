@@ -23,6 +23,21 @@ class TodoList {
         this.addTodo();
       }
     });
+
+    // Event delegation for todo items
+    document.getElementById("todoList").addEventListener("click", (e) => {
+      if (e.target.classList.contains("delete-btn")) {
+        const todoId = parseInt(e.target.closest(".todo-item").dataset.id);
+        this.deleteTodo(todoId);
+      }
+    });
+
+    document.getElementById("todoList").addEventListener("change", (e) => {
+      if (e.target.classList.contains("todo-checkbox")) {
+        const todoId = parseInt(e.target.closest(".todo-item").dataset.id);
+        this.toggleTodo(todoId);
+      }
+    });
   }
 
   addTodo() {
@@ -78,6 +93,7 @@ class TodoList {
     this.todos.forEach((todo) => {
       const li = document.createElement("li");
       li.className = "todo-item";
+      li.dataset.id = todo.id; // Add dataset for event delegation
 
       li.innerHTML = `
         <input type="checkbox" class="todo-checkbox" ${
@@ -88,18 +104,6 @@ class TodoList {
       }</span>
         <button class="delete-btn">Delete</button>
       `;
-
-      // Bind events
-      const checkbox = li.querySelector(".todo-checkbox");
-      const deleteBtn = li.querySelector(".delete-btn");
-
-      checkbox.addEventListener("change", () => {
-        this.toggleTodo(todo.id);
-      });
-
-      deleteBtn.addEventListener("click", () => {
-        this.deleteTodo(todo.id);
-      });
 
       todoList.appendChild(li);
     });
