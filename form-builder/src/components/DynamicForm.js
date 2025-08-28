@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
   const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
 
   // Initialize form data based on schema
   useEffect(() => {
@@ -27,11 +28,70 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
       ...prev,
       [fieldName]: value,
     }));
+
+    // Clear error when user starts typing
+    if (errors[fieldName]) {
+      setErrors((prev) => ({ ...prev, [fieldName]: null }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Simple validation for required fields
+    const newErrors = {};
+    let hasErrors = false;
+
+    schema.forEach((field) => {
+      if (field.required) {
+        const value = formData[field.name];
+
+        // Check if field is empty
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+          newErrors[field.name] = `${field.label} is required`;
+          hasErrors = true;
+        }
+
+        // Email validation
+        if (field.type === "email" && value) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(value)) {
+            newErrors[field.name] = "Please enter a valid email address";
+            hasErrors = true;
+          }
+        }
+      }
+
+      // Character length validation (for all fields with values)
+      const value = formData[field.name];
+      if (value && typeof value === "string") {
+        // Check minimum length
+        if (field.minLength && value.length < field.minLength) {
+          newErrors[
+            field.name
+          ] = `${field.label} must be at least ${field.minLength} characters`;
+          hasErrors = true;
+        }
+
+        // Check maximum length
+        if (field.maxLength && value.length > field.maxLength) {
+          newErrors[
+            field.name
+          ] = `${field.label} must be no more than ${field.maxLength} characters`;
+          hasErrors = true;
+        }
+      }
+    });
+
+    if (hasErrors) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Form is valid, submit it
     onSubmit(formData);
+    setFormData({});
+    setErrors({});
   };
 
   const handleCheckboxChange = (fieldName, optionValue, checked) => {
@@ -49,6 +109,11 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
         };
       }
     });
+
+    // Clear error when user makes selection
+    if (errors[fieldName]) {
+      setErrors((prev) => ({ ...prev, [fieldName]: null }));
+    }
   };
 
   const renderField = (field) => {
@@ -67,7 +132,7 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
             onChange={(e) => handleInputChange(name, e.target.value)}
             placeholder={placeholder}
             required={required}
-            className="form-input"
+            className={`form-input ${errors[name] ? "error" : ""}`}
           />
         );
 
@@ -81,7 +146,7 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
             placeholder={placeholder}
             required={required}
             rows="3"
-            className="form-textarea"
+            className={`form-textarea ${errors[name] ? "error" : ""}`}
           />
         );
 
@@ -93,7 +158,7 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
             value={formData[name] || ""}
             onChange={(e) => handleInputChange(name, e.target.value)}
             required={required}
-            className="form-select"
+            className={`form-select ${errors[name] ? "error" : ""}`}
           >
             <option value="">{placeholder || "Select an option"}</option>
             {options?.map((option, index) => (
@@ -172,7 +237,7 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
             onChange={(e) => handleInputChange(name, e.target.value)}
             placeholder={placeholder}
             required={required}
-            className="form-input"
+            className={`form-input ${errors[name] ? "error" : ""}`}
           />
         );
     }
@@ -191,6 +256,9 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
             {renderField(field)}
             {field.description && (
               <small className="field-description">{field.description}</small>
+            )}
+            {errors[field.name] && (
+              <div className="field-error">{errors[field.name]}</div>
             )}
           </div>
         ))}

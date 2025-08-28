@@ -48,6 +48,14 @@
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
+/* Error state styling */
+.form-input.error,
+.form-textarea.error,
+.form-select.error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+}
+
 .form-textarea {
   resize: vertical;
   min-height: 80px;
@@ -103,6 +111,18 @@
   margin-top: 4px;
   color: #666;
   font-size: 12px;
+}
+
+/* Error message styling */
+.field-error {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background-color: #fdf2f2;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .submit-button {

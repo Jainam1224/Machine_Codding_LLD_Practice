@@ -34,6 +34,8 @@ function App() {
       required: true,
       placeholder: "Enter your first name",
       description: "Your first name",
+      minLength: 2,
+      maxLength: 20,
     },
     {
       name: "lastName",
@@ -42,6 +44,8 @@ function App() {
       required: true,
       placeholder: "Enter your last name",
       description: "Your last name",
+      minLength: 2,
+      maxLength: 20,
     },
     {
       name: "email",
@@ -50,6 +54,7 @@ function App() {
       required: true,
       placeholder: "Enter your email address",
       description: "Your email address",
+      maxLength: 50,
     },
     {
       name: "age",
@@ -66,6 +71,8 @@ function App() {
       required: false,
       placeholder: "Enter your phone number",
       description: "Your contact number",
+      minLength: 10,
+      maxLength: 15,
     },
     {
       name: "gender",
@@ -75,6 +82,7 @@ function App() {
       options: [
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
+        { value: "other", label: "Other" },
       ],
     },
     {
@@ -111,7 +119,10 @@ function App() {
       label: "Bio",
       required: false,
       placeholder: "Tell us about yourself",
-      description: "A short description about yourself",
+      description:
+        "A short description about yourself (min 10, max 200 characters)",
+      minLength: 10,
+      maxLength: 200,
     },
     {
       name: "newsletter",
