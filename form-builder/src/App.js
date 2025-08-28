@@ -8,7 +8,6 @@ function App() {
     {
       id: 1,
       timestamp: new Date().toLocaleString(),
-      formTitle: "Sample Entry",
       data: {
         firstName: "John",
         lastName: "Doe",
@@ -19,7 +18,6 @@ function App() {
         country: "us",
         interests: ["technology", "sports", "music"],
         bio: "Software developer with passion for technology and sports. Love playing guitar in free time.",
-        newsletter: true,
         terms: true,
       },
     },
@@ -125,12 +123,6 @@ function App() {
       maxLength: 200,
     },
     {
-      name: "newsletter",
-      type: "checkbox",
-      label: "Subscribe to Newsletter",
-      required: false,
-    },
-    {
       name: "terms",
       type: "checkbox",
       label: "I agree to the Terms and Conditions",
@@ -142,7 +134,6 @@ function App() {
     const newSubmission = {
       id: Date.now(),
       timestamp: new Date().toLocaleString(),
-      formTitle: "User Registration",
       data: data,
     };
 

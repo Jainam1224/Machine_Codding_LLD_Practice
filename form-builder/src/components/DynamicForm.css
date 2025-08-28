@@ -83,10 +83,6 @@
   padding: 4px 0;
 }
 
-.checkbox-option:hover {
-  color: #007bff;
-}
-
 .checkbox-option input[type="checkbox"] {
   margin: 0;
   cursor: pointer;
