@@ -16,25 +16,41 @@ function ThrottledScrollProductPagination() {
       // Check if we're near the bottom
       if (
         window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 800
+        document.documentElement.offsetHeight - 500
       ) {
         if (hasMore && !loading) {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
         }
       }
       throttleTimeoutRef.current = null;
-    }, 150); // Throttle to 150ms for products
+    }, 300); // Increased throttle to 300ms for better reliability
   }, [hasMore, loading]);
 
   useEffect(() => {
+    const scrollHandler = () => {
+      // Check if we're near the bottom immediately (without throttling)
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 500
+      ) {
+        if (hasMore && !loading) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      }
+    };
+
+    // Add both immediate and throttled handlers for better reliability
+    window.addEventListener("scroll", scrollHandler, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
+      window.removeEventListener("scroll", scrollHandler);
       window.removeEventListener("scroll", handleScroll);
       if (throttleTimeoutRef.current) {
         clearTimeout(throttleTimeoutRef.current);
       }
     };
-  }, [handleScroll]);
+  }, [handleScroll, hasMore, loading]);
 
   return (
     <div>
@@ -51,13 +67,21 @@ function ThrottledScrollProductPagination() {
           Throttled Scroll Method
         </h3>
         <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
-          Scroll down to automatically load more products (throttled for performance)
+          Scroll down to automatically load more products (throttled for
+          performance)
         </p>
         <div style={{ marginTop: "8px", fontSize: "12px", color: "#888" }}>
           Showing {products.length} of {totalProducts} products
         </div>
         <div style={{ marginTop: "4px", fontSize: "11px", color: "#aaa" }}>
-          Throttled to 150ms for smooth performance
+          Throttled to 300ms for better reliability
+        </div>
+        <div style={{ marginTop: "4px", fontSize: "11px", color: "#888" }}>
+          Scroll threshold: 500px from bottom
+        </div>
+        <div style={{ marginTop: "4px", fontSize: "11px", color: "#888" }}>
+          Current page: {pageNumber} | Has more: {hasMore ? "Yes" : "No"} |
+          Loading: {loading ? "Yes" : "No"}
         </div>
       </div>
 

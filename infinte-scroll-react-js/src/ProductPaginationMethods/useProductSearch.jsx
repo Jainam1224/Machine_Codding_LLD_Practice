@@ -1,80 +1,186 @@
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
-// Mock product data generator
-const generateMockProducts = (page, limit = 20) => {
-  const products = [];
-  const startId = (page - 1) * limit;
+// API configuration
+const API_BASE_URL = "https://dummyjson.com/products";
+const PRODUCTS_PER_PAGE = 20;
 
-  for (let i = 0; i < limit; i++) {
-    const id = startId + i + 1;
-    products.push({
-      id,
-      name: `Product ${id}`,
-      price: Math.floor(Math.random() * 1000) + 10,
-      category: ["Electronics", "Clothing", "Home", "Sports", "Books"][
-        Math.floor(Math.random() * 5)
-      ],
-      rating: (Math.random() * 5).toFixed(1),
-      image: `https://picsum.photos/300/200?random=${id}`,
-      description: `This is a sample description for Product ${id}. It's a great product with amazing features.`,
-    });
-  }
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000, // 10 second timeout
+});
 
-  return products;
-};
-
-// Simulate API delay
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export default function useProductSearch(pageNumber, limit = 20) {
-  const [loading, setLoading] = useState(true);
+export default function useProductSearch(
+  pageNumber,
+  limit = PRODUCTS_PER_PAGE
+) {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [products, setProducts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
+
+  // Fetch products using native fetch API
+  const fetchProductsWithFetch = useCallback(
+    async (abortController) => {
+      try {
+        // Single abort check at the start
+        if (abortController.signal.aborted) return;
+
+        // Fetch real products from API using fetch
+        const response = await fetch(
+          `${API_BASE_URL}?limit=${limit}&skip=${(pageNumber - 1) * limit}`,
+          {
+            signal: abortController.signal,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const newProducts = data.products || [];
+
+        // Process products to ensure consistent structure
+        const processedProducts = newProducts.map((product, index) => ({
+          id: `${pageNumber}-${product.id || index}`,
+          name:
+            product.title || product.name || `Product ${product.id || index}`,
+          price: product.price || 0,
+          category: product.category || "Uncategorized",
+          rating: product.rating || 0,
+          image:
+            product.thumbnail ||
+            product.image ||
+            "https://via.placeholder.com/300x200?text=No+Image",
+          description: product.description || "No description available",
+        }));
+
+        setProducts((prevProducts) => {
+          if (pageNumber === 1) {
+            return processedProducts;
+          }
+          return [...prevProducts, ...processedProducts];
+        });
+
+        setTotalProducts(data.total || 0);
+        setLoading(false);
+      } catch (error) {
+        // Only check abort in catch block if we need to handle abort differently
+        if (abortController.signal.aborted) {
+          console.log("Request was aborted");
+          return;
+        }
+        console.error("Fetch Error:", error.message);
+        setError(true);
+        setLoading(false);
+      }
+    },
+    [pageNumber, limit]
+  );
+
+  // Fetch products using Axios (alternative method)
+  const fetchProductsWithAxios = useCallback(async () => {
+    try {
+      // Create axios cancel token for proper cancellation
+      const cancelTokenSource = axios.CancelToken.source();
+
+      // Fetch real products from API using axios
+      const { data } = await api.get("", {
+        params: {
+          limit,
+          skip: (pageNumber - 1) * limit,
+        },
+        cancelToken: cancelTokenSource.token,
+      });
+
+      const newProducts = data.products || [];
+
+      // Process products to ensure consistent structure
+      const processedProducts = newProducts.map((product, index) => ({
+        id: `${pageNumber}-${product.id || index}`,
+        name: product.title || product.name || `Product ${product.id || index}`,
+        price: product.price || 0,
+        category: product.category || "Uncategorized",
+        rating: product.rating || 0,
+        image:
+          product.thumbnail ||
+          product.image ||
+          "https://via.placeholder.com/300x200?text=No+Image",
+        description: product.description || "No description available",
+      }));
+
+      setProducts((prevProducts) => {
+        if (pageNumber === 1) {
+          return processedProducts;
+        }
+        return [...prevProducts, ...processedProducts];
+      });
+
+      setTotalProducts(data.total || 0);
+      setLoading(false);
+    } catch (error) {
+      // Handle axios-specific errors
+      if (axios.isCancel(error)) {
+        console.log("Request cancelled:", error.message);
+        return; // Don't set error for cancelled requests
+      } else if (error.code === "ECONNABORTED") {
+        console.error("Request timeout");
+      } else if (error.response) {
+        console.error(
+          "HTTP Error:",
+          error.response.status,
+          error.response.data
+        );
+      } else if (error.request) {
+        console.error("Network Error:", error.request);
+      } else {
+        console.error("Error:", error.message);
+      }
+
+      setError(true);
+      setLoading(false);
+    }
+  }, [pageNumber, limit]);
+
+  const fetchProducts = fetchProductsWithFetch;
+
+  // Key differences:
+  // - Fetch: Uses AbortController.signal, manual JSON parsing, manual error handling
+  // - Axios: Uses cancelToken, automatic JSON parsing, detailed error classification
+
+  const calculatedHasMore = pageNumber * limit < totalProducts;
 
   useEffect(() => {
     setLoading(true);
     setError(false);
 
-    const abortController = new AbortController();
+    // Handle both fetch and axios methods
+    if (fetchProducts === fetchProductsWithFetch) {
+      // Fetch method needs AbortController
+      const abortController = new AbortController();
+      fetchProducts(abortController);
 
-    const fetchProducts = async () => {
-      try {
-        // Simulate API call delay
-        await delay(800);
+      return () => {
+        abortController.abort();
+      };
+    } else {
+      // Axios method handles its own cancellation
+      fetchProducts();
 
-        if (abortController.signal.aborted) return;
+      return () => {
+        // Axios cancel tokens are automatically cleaned up
+      };
+    }
+  }, [fetchProducts]);
 
-        // Generate mock products
-        const newProducts = generateMockProducts(pageNumber, limit);
-
-        // Simulate having a total of 200 products (10 pages)
-        const total = 200;
-
-        if (abortController.signal.aborted) return;
-
-        setProducts((prevProducts) => {
-          if (pageNumber === 1) {
-            return newProducts;
-          }
-          return [...prevProducts, ...newProducts];
-        });
-
-        setTotalProducts(total);
-        setHasMore(pageNumber * limit < total);
-        setLoading(false);
-      } catch (err) {
-        if (abortController.signal.aborted) return;
-        setError(true);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-
-    return () => abortController.abort();
-  }, [pageNumber, limit]);
-
-  return { loading, error, products, hasMore, totalProducts };
+  return {
+    loading,
+    error,
+    products,
+    hasMore: calculatedHasMore,
+    totalProducts,
+  };
 }

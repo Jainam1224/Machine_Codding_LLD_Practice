@@ -3,11 +3,19 @@ import ScrollEventProductPagination from "./ScrollEventProductPagination";
 import ButtonTriggerProductPagination from "./ButtonTriggerProductPagination";
 import ThrottledScrollProductPagination from "./ThrottledScrollProductPagination";
 import IntersectionObserverProductPagination from "./IntersectionObserverProductPagination";
+import VirtualizedProductPagination from "./VirtualizedProductPagination";
 
 function ProductPaginationDemo() {
-  const [activeMethod, setActiveMethod] = useState("intersection-observer");
+  const [activeMethod, setActiveMethod] = useState("virtualized");
 
   const methods = [
+    {
+      id: "virtualized",
+      name: "Virtualized Infinite Scroll",
+      component: VirtualizedProductPagination,
+      description:
+        "Performance optimized - only renders visible products in DOM",
+    },
     {
       id: "intersection-observer",
       name: "Intersection Observer",
@@ -43,9 +51,6 @@ function ProductPaginationDemo() {
         <h1 style={{ margin: "0 0 8px 0", color: "#333", fontSize: "24px" }}>
           Product Pagination Methods Demo
         </h1>
-        <p style={{ margin: "0", color: "#666", fontSize: "16px" }}>
-          Explore different infinite scroll implementations for product catalogs
-        </p>
       </div>
 
       <div style={{ marginBottom: "24px", textAlign: "center" }}>
@@ -77,26 +82,6 @@ function ProductPaginationDemo() {
             </button>
           ))}
         </div>
-
-        <div
-          style={{
-            padding: "12px",
-            backgroundColor: "#e3f2fd",
-            borderRadius: "4px",
-            maxWidth: "500px",
-            margin: "0 auto",
-          }}
-        >
-          <p style={{ margin: "0", color: "#1976d2", fontSize: "14px" }}>
-            <strong>Current Method:</strong>{" "}
-            {methods.find((m) => m.id === activeMethod)?.name}
-          </p>
-          <p
-            style={{ margin: "4px 0 0 0", color: "#1976d2", fontSize: "13px" }}
-          >
-            {methods.find((m) => m.id === activeMethod)?.description}
-          </p>
-        </div>
       </div>
 
       <div
@@ -108,98 +93,6 @@ function ProductPaginationDemo() {
         }}
       >
         {ActiveComponent && <ActiveComponent />}
-      </div>
-
-      <div
-        style={{
-          marginTop: "32px",
-          padding: "20px",
-          backgroundColor: "#f8f9fa",
-          borderRadius: "8px",
-          border: "1px solid #e9ecef",
-        }}
-      >
-        <h3
-          style={{
-            margin: "0 0 16px 0",
-            color: "#333",
-            textAlign: "center",
-            fontSize: "18px",
-          }}
-        >
-          Method Comparison & Use Cases
-        </h3>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "16px",
-          }}
-        >
-          {methods.map((method) => (
-            <div
-              key={method.id}
-              style={{
-                padding: "16px",
-                backgroundColor: "white",
-                borderRadius: "4px",
-                border: "1px solid #dee2e6",
-              }}
-            >
-              <h4
-                style={{
-                  margin: "0 0 8px 0",
-                  color: "#007bff",
-                  fontSize: "16px",
-                }}
-              >
-                {method.name}
-              </h4>
-              <p
-                style={{
-                  margin: "0 0 12px 0",
-                  color: "#666",
-                  fontSize: "13px",
-                }}
-              >
-                {method.description}
-              </p>
-              <div style={{ fontSize: "12px", color: "#888" }}>
-                <strong>Best for:</strong>
-                <ul style={{ margin: "4px 0 0 0", paddingLeft: "16px" }}>
-                  {method.id === "intersection-observer" && (
-                    <>
-                      <li>Production applications</li>
-                      <li>High-performance requirements</li>
-                      <li>Modern browsers</li>
-                    </>
-                  )}
-                  {method.id === "scroll-event" && (
-                    <>
-                      <li>Simple implementations</li>
-                      <li>Basic requirements</li>
-                      <li>Learning purposes</li>
-                    </>
-                  )}
-                  {method.id === "button-trigger" && (
-                    <>
-                      <li>User control preference</li>
-                      <li>Accessibility requirements</li>
-                      <li>Predictable loading</li>
-                    </>
-                  )}
-                  {method.id === "throttled-scroll" && (
-                    <>
-                      <li>Performance optimization</li>
-                      <li>Scroll-heavy applications</li>
-                      <li>Balanced approach</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

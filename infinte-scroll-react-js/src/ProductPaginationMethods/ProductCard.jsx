@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ProductCard({ product }) {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <div
       style={{
@@ -14,16 +20,35 @@ function ProductCard({ product }) {
       }}
     >
       <div style={{ marginBottom: "8px" }}>
-        <img
-          src={product.image}
-          alt={product.name}
-          style={{
-            width: "100%",
-            height: "150px",
-            objectFit: "cover",
-            borderRadius: "4px",
-          }}
-        />
+        {!imageError ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{
+              width: "100%",
+              height: "150px",
+              objectFit: "cover",
+              borderRadius: "4px",
+            }}
+            onError={handleImageError}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "150px",
+              backgroundColor: "#f0f0f0",
+              borderRadius: "4px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#999",
+              fontSize: "12px",
+            }}
+          >
+            Image not available
+          </div>
+        )}
         <div
           style={{
             backgroundColor: "#f0f0f0",

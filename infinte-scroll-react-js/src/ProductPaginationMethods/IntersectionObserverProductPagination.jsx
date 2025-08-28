@@ -39,7 +39,8 @@ function IntersectionObserverProductPagination() {
           Intersection Observer Method
         </h3>
         <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
-          Most performant method - automatically loads when you reach the last product
+          Most performant method - automatically loads when you reach the last
+          product
         </p>
         <div style={{ marginTop: "8px", fontSize: "12px", color: "#888" }}>
           Showing {products.length} of {totalProducts} products
