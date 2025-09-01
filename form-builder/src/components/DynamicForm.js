@@ -158,7 +158,7 @@ const FormField = ({ field, value, error, onChange, onCheckboxChange }) => {
   );
 };
 
-const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
+const DynamicForm = ({ schema, onSubmit }) => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -273,13 +273,9 @@ const DynamicForm = ({ schema, onSubmit, title = "Dynamic Form" }) => {
 
   return (
     <div className="dynamic-form">
-      <h2>{title}</h2>
-
       {errors.submit && <div className="form-error">{errors.submit}</div>}
-
       <form onSubmit={handleSubmit} noValidate>
         {formFields}
-
         <button type="submit" className="submit-button" disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>

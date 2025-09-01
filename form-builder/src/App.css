@@ -1,25 +1,16 @@
 .App {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: lightgray;
 }
 
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-  margin-bottom: 30px;
+  padding: 5px;
+  color: black;
   text-align: center;
 }
 
 .App-header h1 {
-  margin: 0 0 10px 0;
   font-size: 2rem;
-}
-
-.App-header p {
-  margin: 0;
-  font-size: 1rem;
-  opacity: 0.9;
 }
 
 main {
@@ -33,7 +24,6 @@ main {
   margin: 0 auto 40px auto;
 }
 
-/* Submissions section */
 .submissions-section {
   background: white;
   border-radius: 8px;
@@ -65,7 +55,6 @@ main {
   color: #666;
 }
 
-/* Table styles */
 .submissions-table-container {
   overflow-x: auto;
 }

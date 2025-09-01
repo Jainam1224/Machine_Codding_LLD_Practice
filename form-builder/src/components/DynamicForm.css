@@ -1,17 +1,7 @@
 .dynamic-form {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  max-width: 500px;
-  margin: 20px auto;
-}
-
-.dynamic-form h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
 }
 
 .form-field {
@@ -60,7 +50,6 @@
   min-height: 80px;
 }
 
-/* Checkbox and Radio styles */
 .checkbox-group,
 .radio-group {
   margin-top: 5px;
@@ -115,33 +104,4 @@
 .submit-button:disabled {
   background: #6c757d;
   cursor: not-allowed;
-}
-
-/* Loading state */
-.submit-button[aria-busy="true"] {
-  position: relative;
-  color: transparent;
-}
-
-.submit-button[aria-busy="true"]::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  border: 2px solid transparent;
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

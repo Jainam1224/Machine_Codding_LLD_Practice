@@ -61,7 +61,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>User Registration Form</h1>
-        <p>Dynamic form builder with validation and data management</p>
       </header>
 
       <main>
@@ -71,7 +70,6 @@ function App() {
               <DynamicForm
                 schema={USER_REGISTRATION_SCHEMA}
                 onSubmit={handleFormSubmit}
-                title="User Registration"
               />
             </div>
           </div>
