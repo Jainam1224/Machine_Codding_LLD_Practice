@@ -1,14 +1,14 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState } from "react";
 
 // Custom hook for managing form submissions
 export const useFormSubmission = (initialData = []) => {
   const [submissions, setSubmissions] = useState(initialData);
 
-  // Memoized submission count to prevent unnecessary re-renders
-  const submissionCount = useMemo(() => submissions.length, [submissions]);
+  // Simple computation - no need for useMemo
+  const submissionCount = submissions.length;
 
-  // Add new submission with proper error handling
-  const addSubmission = useCallback((formData) => {
+  // Simple function with no dependencies - no need for useCallback
+  const addSubmission = (formData) => {
     try {
       const newSubmission = {
         id: Date.now(),
@@ -22,7 +22,7 @@ export const useFormSubmission = (initialData = []) => {
       console.error("Error adding submission:", error);
       return { success: false, error: error.message };
     }
-  }, []);
+  };
 
   return {
     submissions,
