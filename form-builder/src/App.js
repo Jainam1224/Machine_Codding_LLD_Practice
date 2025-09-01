@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import "./App.css";
 import DynamicForm from "./components/DynamicForm";
+import SubmissionsTable from "./components/SubmissionsTable";
+import { useFormSubmission } from "./hooks/useFormSubmission";
+import { USER_REGISTRATION_SCHEMA } from "./constants/formSchemas";
 import "./components/DynamicForm.css";
 
 function App() {
-  const [submittedDataList, setSubmittedDataList] = useState([
+  // Use custom hook for form submission management
+  const { submissions, submissionCount, addSubmission } = useFormSubmission([
     {
       id: 1,
       timestamp: new Date().toLocaleString(),
@@ -23,127 +27,50 @@ function App() {
     },
   ]);
 
-  // Comprehensive user form schema with all input types
-  const comprehensiveUserSchema = [
-    {
-      name: "firstName",
-      type: "text",
-      label: "First Name",
-      required: true,
-      placeholder: "Enter your first name",
-      description: "Your first name",
-      minLength: 2,
-      maxLength: 20,
+  // Memoized form submission handler
+  const handleFormSubmit = useCallback(
+    async (formData) => {
+      try {
+        const result = await addSubmission(formData);
+        if (result.success) {
+          console.log("Form submitted successfully:", result.submission);
+        } else {
+          console.error("Form submission failed:", result.error);
+        }
+      } catch (error) {
+        console.error("Unexpected error during form submission:", error);
+      }
     },
-    {
-      name: "lastName",
-      type: "text",
-      label: "Last Name",
-      required: true,
-      placeholder: "Enter your last name",
-      description: "Your last name",
-      minLength: 2,
-      maxLength: 20,
-    },
-    {
-      name: "email",
-      type: "email",
-      label: "Email Address",
-      required: true,
-      placeholder: "Enter your email address",
-      description: "Your email address",
-      maxLength: 50,
-    },
-    {
-      name: "age",
-      type: "number",
-      label: "Age",
-      required: false,
-      placeholder: "Enter your age",
-      description: "Your age in years",
-    },
-    {
-      name: "phone",
-      type: "text",
-      label: "Phone Number",
-      required: false,
-      placeholder: "Enter your phone number",
-      description: "Your contact number",
-      minLength: 10,
-      maxLength: 15,
-    },
-    {
-      name: "gender",
-      type: "radio",
-      label: "Gender",
-      required: true,
-      options: [
-        { value: "male", label: "Male" },
-        { value: "female", label: "Female" },
-        { value: "other", label: "Other" },
-      ],
-    },
-    {
-      name: "country",
-      type: "select",
-      label: "Country",
-      required: true,
-      options: [
-        { value: "us", label: "United States" },
-        { value: "uk", label: "United Kingdom" },
-        { value: "ca", label: "Canada" },
-        { value: "au", label: "Australia" },
-        { value: "in", label: "India" },
-        { value: "other", label: "Other" },
-      ],
-    },
-    {
-      name: "interests",
-      type: "checkbox",
-      label: "Interests",
-      required: false,
-      options: [
-        { value: "technology", label: "Technology" },
-        { value: "sports", label: "Sports" },
-        { value: "music", label: "Music" },
-        { value: "reading", label: "Reading" },
-        { value: "travel", label: "Travel" },
-        { value: "cooking", label: "Cooking" },
-      ],
-    },
-    {
-      name: "bio",
-      type: "textarea",
-      label: "Bio",
-      required: false,
-      placeholder: "Tell us about yourself",
-      description:
-        "A short description about yourself (min 10, max 200 characters)",
-      minLength: 10,
-      maxLength: 200,
-    },
-    {
-      name: "terms",
-      type: "checkbox",
-      label: "I agree to the Terms and Conditions",
-      required: true,
-    },
-  ];
+    [addSubmission]
+  );
 
-  const handleFormSubmit = (data) => {
-    const newSubmission = {
-      id: Date.now(),
-      timestamp: new Date().toLocaleString(),
-      data: data,
-    };
+  // Memoized submissions section to prevent unnecessary re-renders
+  const submissionsSection = useMemo(
+    () => (
+      <div className="submissions-section">
+        <div className="submissions-header">
+          <h3>Form Submissions</h3>
+          <div className="submissions-actions">
+            <span className="submission-count">
+              {submissionCount} submission{submissionCount !== 1 ? "s" : ""}
+            </span>
+          </div>
+        </div>
 
-    setSubmittedDataList((prev) => [...prev, newSubmission]);
-  };
+        <SubmissionsTable
+          submissions={submissions}
+          schema={USER_REGISTRATION_SCHEMA}
+        />
+      </div>
+    ),
+    [submissions, submissionCount]
+  );
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>User Registration Form</h1>
+        <p>Dynamic form builder with validation and data management</p>
       </header>
 
       <main>
@@ -151,7 +78,7 @@ function App() {
           <div className="form-section">
             <div className="form-container">
               <DynamicForm
-                schema={comprehensiveUserSchema}
+                schema={USER_REGISTRATION_SCHEMA}
                 onSubmit={handleFormSubmit}
                 title="User Registration"
               />
@@ -159,66 +86,7 @@ function App() {
           </div>
         </div>
 
-        {/* All Submissions Table */}
-        <div className="submissions-section">
-          {submittedDataList.length === 0 ? (
-            <div className="no-submissions">
-              <p>No form submissions yet. Submit the form to see data here!</p>
-            </div>
-          ) : (
-            <div className="submissions-table-container">
-              <table className="submissions-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Time</th>
-                    {comprehensiveUserSchema.map((field) => (
-                      <th key={field.name}>{field.label}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {submittedDataList.map((submission) => (
-                    <tr key={submission.id} className="submission-row">
-                      <td className="submission-id">#{submission.id}</td>
-                      <td className="submission-time">
-                        {submission.timestamp}
-                      </td>
-                      {comprehensiveUserSchema.map((field) => {
-                        const value = submission.data[field.name];
-                        let displayValue = value;
-
-                        // Format the value for display
-                        if (typeof value === "boolean") {
-                          displayValue = value ? "Yes" : "No";
-                        } else if (
-                          value === "" ||
-                          value === null ||
-                          value === undefined
-                        ) {
-                          displayValue = "-";
-                        } else if (Array.isArray(value)) {
-                          // Handle checkbox arrays (interests)
-                          displayValue =
-                            value.length > 0 ? value.join(", ") : "-";
-                        }
-
-                        return (
-                          <td
-                            key={field.name}
-                            className="submission-field-value"
-                          >
-                            {displayValue}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+        {submissionsSection}
       </main>
     </div>
   );

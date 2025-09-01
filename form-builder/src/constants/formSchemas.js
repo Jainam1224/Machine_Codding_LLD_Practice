@@ -1,0 +1,138 @@
+// Form schema constants - separated for reusability and maintainability
+export const USER_REGISTRATION_SCHEMA = [
+  {
+    name: "firstName",
+    type: "text",
+    label: "First Name",
+    required: true,
+    placeholder: "Enter your first name",
+    description: "Your first name",
+    minLength: 2,
+    maxLength: 20,
+    validation: {
+      pattern: /^[a-zA-Z\s]+$/,
+      message: "First name should only contain letters and spaces",
+    },
+  },
+  {
+    name: "lastName",
+    type: "text",
+    label: "Last Name",
+    required: true,
+    placeholder: "Enter your last name",
+    description: "Your last name",
+    minLength: 2,
+    maxLength: 20,
+    validation: {
+      pattern: /^[a-zA-Z\s]+$/,
+      message: "Last name should only contain letters and spaces",
+    },
+  },
+  {
+    name: "email",
+    type: "email",
+    label: "Email Address",
+    required: true,
+    placeholder: "Enter your email address",
+    description: "Your email address",
+    maxLength: 50,
+    validation: {
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      message: "Please enter a valid email address",
+    },
+  },
+  {
+    name: "age",
+    type: "number",
+    label: "Age",
+    required: false,
+    placeholder: "Enter your age",
+    description: "Your age in years",
+    validation: {
+      min: 13,
+      max: 120,
+      message: "Age must be between 13 and 120",
+    },
+  },
+  {
+    name: "phone",
+    type: "text",
+    label: "Phone Number",
+    required: false,
+    placeholder: "Enter your phone number",
+    description: "Your contact number",
+    minLength: 10,
+    maxLength: 15,
+    validation: {
+      pattern: /^[\+]?[1-9][\d]{0,15}$/,
+      message: "Please enter a valid phone number",
+    },
+  },
+  {
+    name: "gender",
+    type: "radio",
+    label: "Gender",
+    required: true,
+    options: [
+      { value: "male", label: "Male" },
+      { value: "female", label: "Female" },
+      { value: "other", label: "Other" },
+    ],
+  },
+  {
+    name: "country",
+    type: "select",
+    label: "Country",
+    required: true,
+    options: [
+      { value: "us", label: "United States" },
+      { value: "uk", label: "United Kingdom" },
+      { value: "ca", label: "Canada" },
+      { value: "au", label: "Australia" },
+      { value: "in", label: "India" },
+      { value: "other", label: "Other" },
+    ],
+  },
+  {
+    name: "interests",
+    type: "checkbox",
+    label: "Interests",
+    required: false,
+    options: [
+      { value: "technology", label: "Technology" },
+      { value: "sports", label: "Sports" },
+      { value: "music", label: "Music" },
+      { value: "reading", label: "Reading" },
+      { value: "travel", label: "Travel" },
+      { value: "cooking", label: "Cooking" },
+    ],
+  },
+  {
+    name: "bio",
+    type: "textarea",
+    label: "Bio",
+    required: false,
+    placeholder: "Tell us about yourself",
+    description:
+      "A short description about yourself (min 10, max 200 characters)",
+    minLength: 10,
+    maxLength: 200,
+  },
+  {
+    name: "terms",
+    type: "checkbox",
+    label: "I agree to the Terms and Conditions",
+    required: true,
+  },
+];
+
+// Schema metadata for performance optimization
+export const SCHEMA_METADATA = {
+  fieldNames: USER_REGISTRATION_SCHEMA.map((field) => field.name),
+  requiredFields: USER_REGISTRATION_SCHEMA.filter(
+    (field) => field.required
+  ).map((field) => field.name),
+  validationFields: USER_REGISTRATION_SCHEMA.filter(
+    (field) => field.validation
+  ).map((field) => field.name),
+};

@@ -90,21 +90,6 @@ main {
   font-size: 1rem;
 }
 
-.clear-all-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.clear-all-btn:hover {
-  background-color: #c82333;
-}
-
 .no-submissions {
   text-align: center;
   padding: 40px;
