@@ -125,14 +125,3 @@ export const USER_REGISTRATION_SCHEMA = [
     required: true,
   },
 ];
-
-// Schema metadata for performance optimization
-export const SCHEMA_METADATA = {
-  fieldNames: USER_REGISTRATION_SCHEMA.map((field) => field.name),
-  requiredFields: USER_REGISTRATION_SCHEMA.filter(
-    (field) => field.required
-  ).map((field) => field.name),
-  validationFields: USER_REGISTRATION_SCHEMA.filter(
-    (field) => field.validation
-  ).map((field) => field.name),
-};

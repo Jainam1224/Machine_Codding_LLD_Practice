@@ -14,55 +14,10 @@ export class FormDataFormatter {
           ? value.join(", ")
           : "-";
 
-      case "date":
-        return this.formatDate(value);
-
-      case "number":
-        return this.formatNumber(value);
-
       case "string":
       default:
         return String(value);
     }
-  }
-
-  static formatDate(value) {
-    try {
-      const date = new Date(value);
-      if (isNaN(date.getTime())) return value;
-      return date.toLocaleDateString();
-    } catch {
-      return value;
-    }
-  }
-
-  static formatNumber(value) {
-    const num = Number(value);
-    if (isNaN(num)) return value;
-    return num.toLocaleString();
-  }
-
-  static formatSubmissionData(submission, schema) {
-    const formattedData = {
-      id: submission.id,
-      timestamp: submission.timestamp,
-      fields: {},
-    };
-
-    schema.forEach((field) => {
-      const value = submission.data[field.name];
-      formattedData.fields[field.name] = {
-        value: value,
-        displayValue: this.formatValueForDisplay(
-          value,
-          this.getFieldType(value)
-        ),
-        fieldType: field.type,
-        label: field.label,
-      };
-    });
-
-    return formattedData;
   }
 
   static getFieldType(value) {
