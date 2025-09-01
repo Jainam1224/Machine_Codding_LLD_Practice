@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import "./App.css";
 import DynamicForm from "./components/DynamicForm";
 import SubmissionsTable from "./components/SubmissionsTable";
@@ -7,7 +7,6 @@ import { USER_REGISTRATION_SCHEMA } from "./constants/formSchemas";
 import "./components/DynamicForm.css";
 
 function App() {
-  // Use custom hook for form submission management
   const { submissions, submissionCount, addSubmission } = useFormSubmission([
     {
       id: 1,
@@ -21,49 +20,41 @@ function App() {
         gender: "male",
         country: "us",
         interests: ["technology", "sports", "music"],
-        bio: "Software developer with passion for technology and sports. Love playing guitar in free time.",
+        bio: "Software developer with passion for technology and sports",
         terms: true,
       },
     },
   ]);
 
-  // Memoized form submission handler
-  const handleFormSubmit = useCallback(
-    async (formData) => {
-      try {
-        const result = await addSubmission(formData);
-        if (result.success) {
-          console.log("Form submitted successfully:", result.submission);
-        } else {
-          console.error("Form submission failed:", result.error);
-        }
-      } catch (error) {
-        console.error("Unexpected error during form submission:", error);
+  const handleFormSubmit = async (formData) => {
+    try {
+      const result = await addSubmission(formData);
+      if (result.success) {
+        console.log("Form submitted successfully:", result.submission);
+      } else {
+        console.error("Form submission failed:", result.error);
       }
-    },
-    [addSubmission]
-  );
+    } catch (error) {
+      console.error("Unexpected error during form submission:", error);
+    }
+  };
 
-  // Memoized submissions section to prevent unnecessary re-renders
-  const submissionsSection = useMemo(
-    () => (
-      <div className="submissions-section">
-        <div className="submissions-header">
-          <h3>Form Submissions</h3>
-          <div className="submissions-actions">
-            <span className="submission-count">
-              {submissionCount} submission{submissionCount !== 1 ? "s" : ""}
-            </span>
-          </div>
+  const submissionsSection = (
+    <div className="submissions-section">
+      <div className="submissions-header">
+        <h3>Form Submissions</h3>
+        <div className="submissions-actions">
+          <span className="submission-count">
+            {submissionCount} submission{submissionCount !== 1 ? "s" : ""}
+          </span>
         </div>
-
-        <SubmissionsTable
-          submissions={submissions}
-          schema={USER_REGISTRATION_SCHEMA}
-        />
       </div>
-    ),
-    [submissions, submissionCount]
+
+      <SubmissionsTable
+        submissions={submissions}
+        schema={USER_REGISTRATION_SCHEMA}
+      />
+    </div>
   );
 
   return (

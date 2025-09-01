@@ -1,53 +1,38 @@
-import React, { useMemo, useCallback } from "react";
+import React from "react";
 
-// Memoized table component for better performance
-const SubmissionsTable = React.memo(({ submissions, schema }) => {
-  // Memoize table headers and rows to prevent unnecessary re-renders
-  const tableHeaders = useMemo(
-    () =>
-      schema.map((field) => ({
-        key: field.name,
-        label: field.label,
-      })),
-    [schema]
-  );
+const SubmissionsTable = ({ submissions, schema }) => {
+  const tableHeaders = schema.map((field) => ({
+    key: field.name,
+    label: field.label,
+  }));
 
-  const tableRows = useMemo(
-    () =>
-      submissions.map((submission) => ({
-        id: submission.id,
-        timestamp: submission.timestamp,
-        data: Object.fromEntries(
-          schema.map((field) => [
-            field.name,
-            // Simple formatting - handle arrays, booleans, and empty values
-            Array.isArray(submission.data[field.name])
-              ? submission.data[field.name].join(", ")
-              : typeof submission.data[field.name] === "boolean"
-              ? submission.data[field.name]
-                ? "Yes"
-                : "No"
-              : submission.data[field.name] || "-",
-          ])
-        ),
-      })),
-    [submissions, schema]
-  );
-
-  // Memoize row rendering to prevent unnecessary re-renders
-  const renderRow = useCallback(
-    (row) => (
-      <tr key={row.id} className="submission-row">
-        <td className="submission-id">#{row.id}</td>
-        <td className="submission-time">{row.timestamp}</td>
-        {tableHeaders.map((header) => (
-          <td key={header.key} className="submission-field-value">
-            {row.data[header.key]}
-          </td>
-        ))}
-      </tr>
+  const tableRows = submissions.map((submission) => ({
+    id: submission.id,
+    timestamp: submission.timestamp,
+    data: Object.fromEntries(
+      schema.map((field) => [
+        field.name,
+        Array.isArray(submission.data[field.name])
+          ? submission.data[field.name].join(", ")
+          : typeof submission.data[field.name] === "boolean"
+          ? submission.data[field.name]
+            ? "Yes"
+            : "No"
+          : submission.data[field.name] || "-",
+      ])
     ),
-    [tableHeaders]
+  }));
+
+  const renderRow = (row) => (
+    <tr key={row.id} className="submission-row">
+      <td className="submission-id">#{row.id}</td>
+      <td className="submission-time">{row.timestamp}</td>
+      {tableHeaders.map((header) => (
+        <td key={header.key} className="submission-field-value">
+          {row.data[header.key]}
+        </td>
+      ))}
+    </tr>
   );
 
   if (submissions.length === 0) {
@@ -74,6 +59,6 @@ const SubmissionsTable = React.memo(({ submissions, schema }) => {
       </table>
     </div>
   );
-});
+};
 
 export default SubmissionsTable;
