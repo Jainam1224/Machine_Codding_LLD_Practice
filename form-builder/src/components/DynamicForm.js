@@ -231,8 +231,6 @@ const FormField = React.memo(
   }
 );
 
-FormField.displayName = "FormField";
-
 // Main DynamicForm component with performance optimizations
 const DynamicForm = React.memo(
   ({ schema, onSubmit, title = "Dynamic Form" }) => {
@@ -385,7 +383,5 @@ const DynamicForm = React.memo(
     );
   }
 );
-
-DynamicForm.displayName = "DynamicForm";
 
 export default DynamicForm;

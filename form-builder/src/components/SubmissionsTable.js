@@ -56,6 +56,4 @@ const SubmissionsTable = React.memo(({ submissions, schema }) => {
   );
 });
 
-SubmissionsTable.displayName = "SubmissionsTable";
-
 export default SubmissionsTable;
