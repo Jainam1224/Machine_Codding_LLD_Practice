@@ -1,22 +1,17 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { FormValidator } from "../utils/validation";
+import { validateForm } from "../utils/validation";
 
 // Memoized form field components for better performance
 const FormField = React.memo(
   ({ field, value, error, onChange, onCheckboxChange }) => {
-    const handleInputChange = useCallback(
-      (e) => {
-        onChange(field.name, e.target.value);
-      },
-      [field.name, onChange]
-    );
+    // Simple event handlers - no need for useCallback due to changing dependencies
+    const handleInputChange = (e) => {
+      onChange(field.name, e.target.value);
+    };
 
-    const handleCheckboxChange = useCallback(
-      (optionValue, checked) => {
-        onCheckboxChange(field.name, optionValue, checked);
-      },
-      [field.name, onCheckboxChange]
-    );
+    const handleCheckboxChange = (optionValue, checked) => {
+      onCheckboxChange(field.name, optionValue, checked);
+    };
 
     const renderField = () => {
       const {
@@ -274,11 +269,14 @@ const DynamicForm = React.memo(
         }));
 
         // Clear error when user starts typing
-        if (errors[fieldName]) {
-          setErrors((prev) => ({ ...prev, [fieldName]: null }));
-        }
+        setErrors((prev) => {
+          if (prev[fieldName]) {
+            return { ...prev, [fieldName]: null };
+          }
+          return prev;
+        });
       },
-      [errors]
+      [] // No dependencies - uses functional state updates
     );
 
     // Memoized checkbox change handler
@@ -300,11 +298,14 @@ const DynamicForm = React.memo(
         });
 
         // Clear error when user makes selection
-        if (errors[fieldName]) {
-          setErrors((prev) => ({ ...prev, [fieldName]: null }));
-        }
+        setErrors((prev) => {
+          if (prev[fieldName]) {
+            return { ...prev, [fieldName]: null };
+          }
+          return prev;
+        });
       },
-      [errors]
+      [] // No dependencies - uses functional state updates
     );
 
     // Memoized form submission handler
@@ -317,9 +318,11 @@ const DynamicForm = React.memo(
         setIsSubmitting(true);
 
         try {
-          // Use the FormValidator utility for validation
-          const { errors: validationErrors, hasErrors } =
-            FormValidator.validateForm(schema, formData);
+          // Use simplified validation utility
+          const { errors: validationErrors, hasErrors } = validateForm(
+            schema,
+            formData
+          );
 
           if (hasErrors) {
             setErrors(validationErrors);

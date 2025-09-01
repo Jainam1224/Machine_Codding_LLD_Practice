@@ -1,103 +1,69 @@
 // Simple validation utility for form fields
-export class FormValidator {
-  static validateField(field, value) {
-    const errors = [];
+export const validateForm = (schema, formData) => {
+  const errors = {};
+  let hasErrors = false;
+
+  schema.forEach((field) => {
+    const value = formData[field.name];
 
     // Required field validation
-    if (field.required && this.isEmpty(value)) {
-      errors.push(`${field.label} is required`);
-      return errors;
+    if (
+      field.required &&
+      (!value || (Array.isArray(value) && value.length === 0))
+    ) {
+      errors[field.name] = `${field.label} is required`;
+      hasErrors = true;
+      return;
     }
 
     // Skip validation for empty non-required fields
-    if (!field.required && this.isEmpty(value)) {
-      return errors;
-    }
-
-    // Type-specific validation
-    switch (field.type) {
-      case "email":
-        if (!this.isValidEmail(value)) {
-          errors.push("Please enter a valid email address");
-        }
-        break;
-
-      case "number":
-        if (!this.isValidNumber(value, field.validation)) {
-          errors.push(
-            field.validation?.message || "Please enter a valid number"
-          );
-        }
-        break;
-
-      case "text":
-      case "textarea":
-        if (!this.isValidText(value, field)) {
-          if (field.minLength && value.length < field.minLength) {
-            errors.push(
-              `${field.label} must be at least ${field.minLength} characters`
-            );
-          }
-          if (field.maxLength && value.length > field.maxLength) {
-            errors.push(
-              `${field.label} must be no more than ${field.maxLength} characters`
-            );
-          }
-        }
-        break;
+    if (!value || (Array.isArray(value) && value.length === 0)) {
+      return;
     }
 
     // Pattern validation
     if (field.validation?.pattern && !field.validation.pattern.test(value)) {
-      errors.push(field.validation.message || "Invalid format");
+      errors[field.name] = field.validation.message || "Invalid format";
+      hasErrors = true;
     }
 
-    return errors;
-  }
-
-  static validateForm(schema, formData) {
-    const errors = {};
-    let hasErrors = false;
-
-    schema.forEach((field) => {
-      const fieldErrors = this.validateField(field, formData[field.name]);
-      if (fieldErrors.length > 0) {
-        errors[field.name] = fieldErrors[0]; // Show first error
+    // Length validation for text fields
+    if (
+      (field.type === "text" || field.type === "textarea") &&
+      typeof value === "string"
+    ) {
+      if (field.minLength && value.length < field.minLength) {
+        errors[
+          field.name
+        ] = `${field.label} must be at least ${field.minLength} characters`;
         hasErrors = true;
       }
-    });
-
-    return { errors, hasErrors };
-  }
-
-  static isEmpty(value) {
-    if (Array.isArray(value)) {
-      return value.length === 0;
+      if (field.maxLength && value.length > field.maxLength) {
+        errors[
+          field.name
+        ] = `${field.label} must be no more than ${field.maxLength} characters`;
+        hasErrors = true;
+      }
     }
-    return value === null || value === undefined || value === "";
-  }
 
-  static isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+    // Number validation
+    if (field.type === "number") {
+      const num = Number(value);
+      if (isNaN(num)) {
+        errors[field.name] = "Please enter a valid number";
+        hasErrors = true;
+      } else {
+        if (field.validation?.min !== undefined && num < field.validation.min) {
+          errors[field.name] = field.validation.message || "Number too small";
+          hasErrors = true;
+        }
+        if (field.validation?.max !== undefined && num > field.validation.max) {
+          errors[field.name] = field.validation.message || "Number too large";
+          hasErrors = true;
+        }
+      }
+    }
+  });
 
-  static isValidNumber(value, validation) {
-    const num = Number(value);
-    if (isNaN(num)) return false;
-
-    if (validation?.min !== undefined && num < validation.min) return false;
-    if (validation?.max !== undefined && num > validation.max) return false;
-
-    return true;
-  }
-
-  static isValidText(value, field) {
-    if (typeof value !== "string") return false;
-
-    if (field.minLength && value.length < field.minLength) return false;
-    if (field.maxLength && value.length > field.maxLength) return false;
-
-    return true;
-  }
-}
+  return { errors, hasErrors };
+};

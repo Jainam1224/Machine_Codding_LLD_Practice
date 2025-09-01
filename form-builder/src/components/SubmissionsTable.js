@@ -1,16 +1,36 @@
 import React, { useMemo, useCallback } from "react";
-import { FormDataFormatter } from "../utils/formDataFormatter";
 
 // Memoized table component for better performance
 const SubmissionsTable = React.memo(({ submissions, schema }) => {
   // Memoize table headers and rows to prevent unnecessary re-renders
   const tableHeaders = useMemo(
-    () => FormDataFormatter.createTableHeaders(schema),
+    () =>
+      schema.map((field) => ({
+        key: field.name,
+        label: field.label,
+      })),
     [schema]
   );
 
   const tableRows = useMemo(
-    () => FormDataFormatter.createTableRows(submissions, schema),
+    () =>
+      submissions.map((submission) => ({
+        id: submission.id,
+        timestamp: submission.timestamp,
+        data: Object.fromEntries(
+          schema.map((field) => [
+            field.name,
+            // Simple formatting - handle arrays, booleans, and empty values
+            Array.isArray(submission.data[field.name])
+              ? submission.data[field.name].join(", ")
+              : typeof submission.data[field.name] === "boolean"
+              ? submission.data[field.name]
+                ? "Yes"
+                : "No"
+              : submission.data[field.name] || "-",
+          ])
+        ),
+      })),
     [submissions, schema]
   );
 
