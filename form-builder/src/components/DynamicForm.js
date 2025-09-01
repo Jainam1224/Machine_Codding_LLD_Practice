@@ -132,21 +132,29 @@ const FormField = React.memo(
           }
 
           return (
-            <input
-              type="checkbox"
-              id={fieldName}
-              name={fieldName}
-              checked={value || false}
-              onChange={(e) => onChange(fieldName, e.target.checked)}
-              className="form-checkbox"
-              aria-describedby={
-                error
-                  ? `${fieldName}-error`
-                  : description
-                  ? `${fieldName}-description`
-                  : undefined
-              }
-            />
+            <label className="checkbox-option">
+              <input
+                type="checkbox"
+                id={fieldName}
+                name={fieldName}
+                checked={value || false}
+                onChange={(e) => onChange(fieldName, e.target.checked)}
+                className="form-checkbox"
+                aria-describedby={
+                  error
+                    ? `${fieldName}-error`
+                    : description
+                    ? `${fieldName}-description`
+                    : undefined
+                }
+              />
+              {field.label}
+              {field.required && (
+                <span className="required" aria-label="required">
+                  *
+                </span>
+              )}
+            </label>
           );
 
         case "radio":
@@ -200,26 +208,22 @@ const FormField = React.memo(
 
     return (
       <div className="form-field">
-        <label
-          htmlFor={field.name}
-          className="form-label"
-          id={`${field.name}-label`}
-        >
-          {field.label}
-          {field.required && (
-            <span className="required" aria-label="required">
-              *
-            </span>
-          )}
-        </label>
+        {(field.type !== "checkbox" || field.options) && (
+          <label
+            htmlFor={field.name}
+            className="form-label"
+            id={`${field.name}-label`}
+          >
+            {field.label}
+            {field.required && (
+              <span className="required" aria-label="required">
+                *
+              </span>
+            )}
+          </label>
+        )}
 
         {renderField()}
-
-        {field.description && (
-          <small className="field-description" id={`${field.name}-description`}>
-            {field.description}
-          </small>
-        )}
 
         {error && (
           <div className="field-error" id={`${field.name}-error`} role="alert">

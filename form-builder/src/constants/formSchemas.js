@@ -1,4 +1,4 @@
-// Form schema constants - separated for reusability and maintainability
+// Simple form schema for user registration
 export const USER_REGISTRATION_SCHEMA = [
   {
     name: "firstName",
@@ -6,7 +6,6 @@ export const USER_REGISTRATION_SCHEMA = [
     label: "First Name",
     required: true,
     placeholder: "Enter your first name",
-    description: "Your first name",
     minLength: 2,
     maxLength: 20,
     validation: {
@@ -20,7 +19,6 @@ export const USER_REGISTRATION_SCHEMA = [
     label: "Last Name",
     required: true,
     placeholder: "Enter your last name",
-    description: "Your last name",
     minLength: 2,
     maxLength: 20,
     validation: {
@@ -34,7 +32,6 @@ export const USER_REGISTRATION_SCHEMA = [
     label: "Email Address",
     required: true,
     placeholder: "Enter your email address",
-    description: "Your email address",
     maxLength: 50,
     validation: {
       pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -47,7 +44,6 @@ export const USER_REGISTRATION_SCHEMA = [
     label: "Age",
     required: false,
     placeholder: "Enter your age",
-    description: "Your age in years",
     validation: {
       min: 13,
       max: 120,
@@ -60,7 +56,6 @@ export const USER_REGISTRATION_SCHEMA = [
     label: "Phone Number",
     required: false,
     placeholder: "Enter your phone number",
-    description: "Your contact number",
     minLength: 10,
     maxLength: 15,
     validation: {
@@ -113,8 +108,6 @@ export const USER_REGISTRATION_SCHEMA = [
     label: "Bio",
     required: false,
     placeholder: "Tell us about yourself",
-    description:
-      "A short description about yourself (min 10, max 200 characters)",
     minLength: 10,
     maxLength: 200,
   },

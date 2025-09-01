@@ -1,4 +1,4 @@
-// Validation utility functions - separated for reusability and testability
+// Simple validation utility for form fields
 export class FormValidator {
   static validateField(field, value) {
     const errors = [];
@@ -50,14 +50,6 @@ export class FormValidator {
     // Pattern validation
     if (field.validation?.pattern && !field.validation.pattern.test(value)) {
       errors.push(field.validation.message || "Invalid format");
-    }
-
-    // Custom validation
-    if (field.validation?.custom) {
-      const customError = field.validation.custom(value);
-      if (customError) {
-        errors.push(customError);
-      }
     }
 
     return errors;
