@@ -69,11 +69,14 @@
 /* Virtualized container styles */
 .virtualizedContainer {
   height: 600px;
+  width: 100%;
   overflow: auto;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   position: relative;
   background: #fafafa;
+  min-height: 400px;
+  max-height: 80vh;
 }
 
 .virtualizedContent {
@@ -84,4 +87,5 @@
   position: absolute;
   padding: 8px;
   box-sizing: border-box;
+  transition: transform 0.1s ease-out;
 }

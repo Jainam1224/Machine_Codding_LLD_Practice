@@ -12,22 +12,19 @@ function VirtualizedProductPagination() {
   const containerRef = useRef();
   const [scrollTop, setScrollTop] = useState(0);
 
-  // Virtualization settings
-  const ITEM_HEIGHT = 320; // Height of each product card + gap
-  const ITEMS_PER_ROW = 4; // Number of items per row in the grid
-  const BUFFER_SIZE = 2; // Number of extra rows to render above/below visible area
-  const CONTAINER_HEIGHT = 600; // Height of the scrollable container
-  const ROW_HEIGHT = ITEM_HEIGHT;
+  // Simple virtualization settings
+  const ITEM_HEIGHT = 320; // Height of each product card
+  const ITEMS_PER_ROW = 4; // Items per row (can be made responsive later)
+  const CONTAINER_HEIGHT = 600; // Visible container height
+  const BUFFER = 2; // Extra rows to render above/below
 
-  // Calculate visible range based on rows
+  // Calculate which items should be visible
   const visibleRange = useMemo(() => {
-    const startRow = Math.max(
-      0,
-      Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_SIZE
-    );
+    const rowHeight = ITEM_HEIGHT;
+    const startRow = Math.max(0, Math.floor(scrollTop / rowHeight) - BUFFER);
     const endRow = Math.min(
       Math.ceil(products.length / ITEMS_PER_ROW) - 1,
-      Math.floor((scrollTop + CONTAINER_HEIGHT) / ROW_HEIGHT) + BUFFER_SIZE
+      Math.floor((scrollTop + CONTAINER_HEIGHT) / rowHeight) + BUFFER
     );
 
     const startIndex = startRow * ITEMS_PER_ROW;
@@ -36,19 +33,19 @@ function VirtualizedProductPagination() {
       (endRow + 1) * ITEMS_PER_ROW - 1
     );
 
-    return { startRow, endRow, startIndex, endIndex };
+    return { startIndex, endIndex, startRow, endRow };
   }, [scrollTop, products.length]);
 
-  // Get only the products that should be visible
+  // Get only visible products
   const visibleProducts = useMemo(() => {
     return products.slice(visibleRange.startIndex, visibleRange.endIndex + 1);
   }, [products, visibleRange]);
 
-  // Calculate total height for proper scrolling
+  // Calculate total height for scrolling
   const totalRows = Math.ceil(products.length / ITEMS_PER_ROW);
-  const totalHeight = totalRows * ROW_HEIGHT;
+  const totalHeight = totalRows * ITEM_HEIGHT;
 
-  // Handle scroll events
+  // Handle scroll
   const handleScroll = useCallback((e) => {
     setScrollTop(e.target.scrollTop);
   }, []);
@@ -70,32 +67,19 @@ function VirtualizedProductPagination() {
     [loading, hasMore]
   );
 
-  // Calculate position for each item
-  const getItemPosition = (index) => {
-    const row = Math.floor(index / ITEMS_PER_ROW);
-    const col = index % ITEMS_PER_ROW;
-    return {
-      top: row * ROW_HEIGHT,
-      left: col * (100 / ITEMS_PER_ROW) + "%",
-      width: 100 / ITEMS_PER_ROW + "%",
-    };
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3 className={styles.title}>Virtualized Infinite Scroll</h3>
+        <h3 className={styles.title}>Simple Virtualized Scroll</h3>
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>
         <div className={styles.methodInfo}>
-          DOM contains only {visibleProducts.length} product cards
+          DOM contains only {visibleProducts.length} of {products.length}{" "}
+          products
         </div>
         <div className={styles.methodInfo}>
-          Visible rows: {visibleRange.startRow + 1} - {visibleRange.endRow + 1}
-        </div>
-        <div className={styles.methodInfo}>
-          Total rows: {totalRows} | Items per row: {ITEMS_PER_ROW}
+          Visible range: {visibleRange.startIndex} - {visibleRange.endIndex}
         </div>
       </div>
 
@@ -104,31 +88,31 @@ function VirtualizedProductPagination() {
         className={styles.virtualizedContainer}
         onScroll={handleScroll}
       >
-        <div
-          className={styles.virtualizedContent}
-          style={{ height: totalHeight }}
-        >
-          {visibleProducts.map((product, index) => {
-            const actualIndex = visibleRange.startIndex + index;
-            const isLastProduct = actualIndex === products.length - 5;
-            const position = getItemPosition(actualIndex);
+        <div style={{ height: totalHeight, position: "relative" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: visibleRange.startRow * ITEM_HEIGHT,
+              left: 0,
+              right: 0,
+            }}
+          >
+            <div className={styles.productsGrid}>
+              {visibleProducts.map((product, index) => {
+                const actualIndex = visibleRange.startIndex + index;
+                const isLastProduct = actualIndex === products.length - 5;
 
-            return (
-              <div
-                key={product.id}
-                ref={isLastProduct ? lastProductElementRef : null}
-                className={styles.virtualizedItem}
-                style={{
-                  top: position.top,
-                  left: position.left,
-                  width: position.width,
-                  height: ITEM_HEIGHT,
-                }}
-              >
-                <ProductCard product={product} />
-              </div>
-            );
-          })}
+                return (
+                  <div
+                    key={product.id}
+                    ref={isLastProduct ? lastProductElementRef : null}
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
