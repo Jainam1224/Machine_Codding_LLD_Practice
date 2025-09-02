@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
+import styles from "./ThrottledScrollProductPagination.module.css";
 
 function ThrottledScrollProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -53,94 +54,46 @@ function ThrottledScrollProductPagination() {
   }, [handleScroll, hasMore, loading]);
 
   return (
-    <div>
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: "16px",
-          padding: "12px",
-          backgroundColor: "#f8f9fa",
-          borderRadius: "4px",
-        }}
-      >
-        <h3 style={{ margin: "0 0 8px 0", color: "#333", fontSize: "16px" }}>
-          Throttled Scroll Method
-        </h3>
-        <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>Throttled Scroll Method</h3>
+        <p className={styles.description}>
           Scroll down to automatically load more products (throttled for
           performance)
         </p>
-        <div style={{ marginTop: "8px", fontSize: "12px", color: "#888" }}>
+        <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>
-        <div style={{ marginTop: "4px", fontSize: "11px", color: "#aaa" }}>
+        <div className={styles.throttleInfo}>
           Throttled to 300ms for better reliability
         </div>
-        <div style={{ marginTop: "4px", fontSize: "11px", color: "#888" }}>
+        <div className={styles.scrollThreshold}>
           Scroll threshold: 500px from bottom
         </div>
-        <div style={{ marginTop: "4px", fontSize: "11px", color: "#888" }}>
+        <div className={styles.debugInfo}>
           Current page: {pageNumber} | Has more: {hasMore ? "Yes" : "No"} |
           Loading: {loading ? "Yes" : "No"}
         </div>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-          gap: "16px",
-          padding: "16px 0",
-        }}
-      >
+      <div className={styles.productsGrid}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
       {loading && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "20px",
-            fontSize: "14px",
-            color: "#666",
-          }}
-        >
-          Loading more products...
-        </div>
+        <div className={styles.loadingMessage}>Loading more products...</div>
       )}
 
       {error && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "12px",
-            color: "#dc3545",
-            backgroundColor: "#f8d7da",
-            borderRadius: "4px",
-            margin: "16px 0",
-            fontSize: "14px",
-          }}
-        >
+        <div className={styles.errorMessage}>
           Error loading products. Please try again.
         </div>
       )}
 
       {!hasMore && products.length > 0 && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "12px",
-            color: "#28a745",
-            backgroundColor: "#d4edda",
-            borderRadius: "4px",
-            margin: "16px 0",
-            fontSize: "14px",
-          }}
-        >
-          All products loaded!
-        </div>
+        <div className={styles.successMessage}>All products loaded!</div>
       )}
     </div>
   );

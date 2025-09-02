@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import useBookSearchFetch from "./useBookSearchFetch";
+import styles from "./BookSearch.module.css";
 
 function FetchWithIntersectionObserver() {
   const [query, setQuery] = useState("");
@@ -32,12 +33,10 @@ function FetchWithIntersectionObserver() {
   };
 
   return (
-    <div>
-      <div style={{ textAlign: "center", marginBottom: "16px" }}>
-        <h3 style={{ margin: "0 0 8px 0", fontSize: "16px" }}>
-          Fetch API + Intersection Observer
-        </h3>
-        <p style={{ margin: "0 0 8px 0", color: "#666", fontSize: "14px" }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>Fetch API + Intersection Observer</h3>
+        <p className={styles.description}>
           Search books using Fetch API with automatic infinite scroll
         </p>
         <input
@@ -45,42 +44,25 @@ function FetchWithIntersectionObserver() {
           value={query ?? ""}
           onChange={handleSearch}
           placeholder="Search for books..."
-          style={{
-            padding: "6px 10px",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-            width: "200px",
-            fontSize: "14px",
-          }}
+          className={styles.searchInput}
         />
       </div>
 
-      <div>
+      <div className={styles.bookList}>
         {books.map((book, index) => {
           if (books.length - 10 === index + 1) {
             return (
               <div
                 ref={lastBookElementRef}
                 key={book}
-                style={{
-                  padding: "6px 0",
-                  borderBottom: "1px solid #eee",
-                  fontSize: "14px",
-                }}
+                className={styles.bookItem}
               >
                 {book}
               </div>
             );
           } else {
             return (
-              <div
-                key={book}
-                style={{
-                  padding: "6px 0",
-                  borderBottom: "1px solid #eee",
-                  fontSize: "14px",
-                }}
-              >
+              <div key={book} className={styles.bookItem}>
                 {book}
               </div>
             );
@@ -88,14 +70,8 @@ function FetchWithIntersectionObserver() {
         })}
       </div>
 
-      {loading && (
-        <div style={{ padding: "10px", textAlign: "center" }}>Loading...</div>
-      )}
-      {error && (
-        <div style={{ padding: "10px", textAlign: "center", color: "red" }}>
-          Error occurred
-        </div>
-      )}
+      {loading && <div className={styles.loadingMessage}>Loading...</div>}
+      {error && <div className={styles.errorMessage}>Error occurred</div>}
     </div>
   );
 }

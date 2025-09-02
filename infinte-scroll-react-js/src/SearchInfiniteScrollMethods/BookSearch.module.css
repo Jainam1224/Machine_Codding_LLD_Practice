@@ -1,0 +1,73 @@
+.container {
+  /* Container styles if needed */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.description {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.searchInput {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 200px;
+  font-size: 14px;
+}
+
+.bookList {
+  /* Book list container */
+}
+
+.bookItem {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.loadingMessage {
+  padding: 10px;
+  text-align: center;
+}
+
+.errorMessage {
+  padding: 10px;
+  text-align: center;
+  color: red;
+}
+
+.loadMoreContainer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.loadMoreButton {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.loadMoreButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.loadMoreButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

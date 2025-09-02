@@ -4,6 +4,7 @@ import ButtonTriggerProductPagination from "./ButtonTriggerProductPagination";
 import ThrottledScrollProductPagination from "./ThrottledScrollProductPagination";
 import IntersectionObserverProductPagination from "./IntersectionObserverProductPagination";
 import VirtualizedProductPagination from "./VirtualizedProductPagination";
+import styles from "./ProductPaginationDemo.module.css";
 
 function ProductPaginationDemo() {
   const [activeMethod, setActiveMethod] = useState("virtualized");
@@ -46,37 +47,20 @@ function ProductPaginationDemo() {
   const ActiveComponent = methods.find((m) => m.id === activeMethod)?.component;
 
   return (
-    <div style={{ padding: "16px", maxWidth: "1200px", margin: "0 auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "24px" }}>
-        <h1 style={{ margin: "0 0 8px 0", color: "#333", fontSize: "24px" }}>
-          Product Pagination Methods Demo
-        </h1>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Product Pagination Methods Demo</h1>
       </div>
 
-      <div style={{ marginBottom: "24px", textAlign: "center" }}>
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            marginBottom: "16px",
-          }}
-        >
+      <div className={styles.methodSelector}>
+        <div className={styles.methodButtons}>
           {methods.map((method) => (
             <button
               key={method.id}
               onClick={() => setActiveMethod(method.id)}
-              style={{
-                padding: "8px 16px",
-                backgroundColor:
-                  activeMethod === method.id ? "#007bff" : "#f8f9fa",
-                color: activeMethod === method.id ? "white" : "#333",
-                border: "1px solid #dee2e6",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "14px",
-              }}
+              className={`${styles.methodButton} ${
+                activeMethod === method.id ? styles.active : ""
+              }`}
             >
               {method.name}
             </button>
@@ -84,14 +68,7 @@ function ProductPaginationDemo() {
         </div>
       </div>
 
-      <div
-        style={{
-          border: "1px solid #dee2e6",
-          borderRadius: "8px",
-          padding: "16px",
-          backgroundColor: "#ffffff",
-        }}
-      >
+      <div className={styles.demoContainer}>
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>

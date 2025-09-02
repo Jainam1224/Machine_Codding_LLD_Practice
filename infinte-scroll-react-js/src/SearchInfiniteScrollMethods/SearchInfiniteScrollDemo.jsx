@@ -4,6 +4,7 @@ import FetchWithIntersectionObserver from "./FetchWithIntersectionObserver";
 import ScrollEventBookSearch from "./ScrollEventBookSearch";
 import ButtonTriggerBookSearch from "./ButtonTriggerBookSearch";
 import ThrottledScrollBookSearch from "./ThrottledScrollBookSearch";
+import styles from "./SearchInfiniteScrollDemo.module.css";
 
 function SearchInfiniteScrollDemo() {
   const [activeMethod, setActiveMethod] = useState("axios-intersection");
@@ -46,58 +47,35 @@ function SearchInfiniteScrollDemo() {
   const ActiveComponent = methods.find((m) => m.id === activeMethod)?.component;
 
   return (
-    <div style={{ padding: "16px", maxWidth: "800px", margin: "0 auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <h1 style={{ margin: "0 0 8px 0", fontSize: "20px" }}>
-          Search Infinite Scroll Methods
-        </h1>
-        <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Search Infinite Scroll Methods</h1>
+        <p className={styles.subtitle}>
           Different implementations for book search
         </p>
       </div>
 
-      <div style={{ marginBottom: "20px", textAlign: "center" }}>
-        <div
-          style={{
-            display: "flex",
-            gap: "8px",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            marginBottom: "12px",
-          }}
-        >
+      <div className={styles.methodSelector}>
+        <div className={styles.methodButtons}>
           {methods.map((method) => (
             <button
               key={method.id}
               onClick={() => setActiveMethod(method.id)}
-              style={{
-                padding: "6px 12px",
-                backgroundColor:
-                  activeMethod === method.id ? "#007bff" : "#f8f9fa",
-                color: activeMethod === method.id ? "white" : "#333",
-                border: "1px solid #dee2e6",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "12px",
-              }}
+              className={`${styles.methodButton} ${
+                activeMethod === method.id ? styles.active : ""
+              }`}
             >
               {method.name}
             </button>
           ))}
         </div>
 
-        <div style={{ fontSize: "12px", color: "#666" }}>
+        <div className={styles.methodDescription}>
           {methods.find((m) => m.id === activeMethod)?.description}
         </div>
       </div>
 
-      <div
-        style={{
-          border: "1px solid #ddd",
-          borderRadius: "4px",
-          padding: "16px",
-        }}
-      >
+      <div className={styles.demoContainer}>
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>

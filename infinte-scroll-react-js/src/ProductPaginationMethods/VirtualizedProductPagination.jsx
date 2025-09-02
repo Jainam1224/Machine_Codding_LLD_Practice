@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useMemo } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
+import styles from "./VirtualizedProductPagination.module.css";
 
 function VirtualizedProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -81,53 +82,34 @@ function VirtualizedProductPagination() {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: "16px",
-          padding: "12px",
-          backgroundColor: "#f8f9fa",
-          borderRadius: "4px",
-        }}
-      >
-        <h3 style={{ margin: "0 0 8px 0", color: "#333", fontSize: "16px" }}>
-          Virtualized Infinite Scroll
-        </h3>
-        <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>Virtualized Infinite Scroll</h3>
+        <p className={styles.description}>
           Performance optimized - only renders visible products in DOM
         </p>
-        <div style={{ marginTop: "8px", fontSize: "12px", color: "#888" }}>
+        <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>
-        <div style={{ marginTop: "4px", fontSize: "11px", color: "#aaa" }}>
+        <div className={styles.domInfo}>
           DOM contains only {visibleProducts.length} product cards
         </div>
-        <div style={{ marginTop: "4px", fontSize: "11px", color: "#aaa" }}>
+        <div className={styles.visibleRows}>
           Visible rows: {visibleRange.startRow + 1} - {visibleRange.endRow + 1}
         </div>
-        <div style={{ marginTop: "4px", fontSize: "11px", color: "#aaa" }}>
+        <div className={styles.totalRows}>
           Total rows: {totalRows} | Items per row: {ITEMS_PER_ROW}
         </div>
       </div>
 
       <div
         ref={containerRef}
-        style={{
-          height: CONTAINER_HEIGHT,
-          overflow: "auto",
-          border: "1px solid #e0e0e0",
-          borderRadius: "8px",
-          position: "relative",
-          backgroundColor: "#fafafa",
-        }}
+        className={styles.virtualizedContainer}
         onScroll={handleScroll}
       >
         <div
-          style={{
-            height: totalHeight,
-            position: "relative",
-          }}
+          className={styles.virtualizedContent}
+          style={{ height: totalHeight }}
         >
           {visibleProducts.map((product, index) => {
             const actualIndex = visibleRange.startIndex + index;
@@ -138,14 +120,12 @@ function VirtualizedProductPagination() {
               <div
                 key={product.id}
                 ref={isLastProduct ? lastProductElementRef : null}
+                className={styles.virtualizedItem}
                 style={{
-                  position: "absolute",
                   top: position.top,
                   left: position.left,
                   width: position.width,
                   height: ITEM_HEIGHT,
-                  padding: "8px",
-                  boxSizing: "border-box",
                 }}
               >
                 <ProductCard product={product} />
@@ -156,48 +136,17 @@ function VirtualizedProductPagination() {
       </div>
 
       {loading && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "20px",
-            fontSize: "14px",
-            color: "#666",
-          }}
-        >
-          Loading more products...
-        </div>
+        <div className={styles.loadingMessage}>Loading more products...</div>
       )}
 
       {error && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "12px",
-            color: "#dc3545",
-            backgroundColor: "#f8d7da",
-            borderRadius: "4px",
-            margin: "16px 0",
-            fontSize: "14px",
-          }}
-        >
+        <div className={styles.errorMessage}>
           Error loading products. Please try again.
         </div>
       )}
 
       {!hasMore && products.length > 0 && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "12px",
-            color: "#28a745",
-            backgroundColor: "#d4edda",
-            borderRadius: "4px",
-            margin: "16px 0",
-            fontSize: "14px",
-          }}
-        >
-          All products loaded!
-        </div>
+        <div className={styles.successMessage}>All products loaded!</div>
       )}
     </div>
   );

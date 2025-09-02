@@ -5,8 +5,8 @@ import SearchInfiniteScrollDemo from "./SearchInfiniteScrollMethods/SearchInfini
 function App() {
   return (
     <>
-      <ProductPaginationDemo />
-      {/* <SearchInfiniteScrollDemo /> */}
+      {/* <ProductPaginationDemo /> */}
+      <SearchInfiniteScrollDemo />
     </>
   );
 }

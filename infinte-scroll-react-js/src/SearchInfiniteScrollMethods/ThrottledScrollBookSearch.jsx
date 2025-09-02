@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import useBookSearch from "./useBookSearch";
+import styles from "./BookSearch.module.css";
 
 function ThrottledScrollBookSearch() {
   const [query, setQuery] = useState("");
@@ -40,12 +41,10 @@ function ThrottledScrollBookSearch() {
   };
 
   return (
-    <div>
-      <div style={{ textAlign: "center", marginBottom: "16px" }}>
-        <h3 style={{ margin: "0 0 8px 0", fontSize: "16px" }}>
-          Throttled Scroll Method
-        </h3>
-        <p style={{ margin: "0 0 8px 0", color: "#666", fontSize: "14px" }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>Throttled Scroll Method</h3>
+        <p className={styles.description}>
           Scroll down to load more books (throttled for performance)
         </p>
         <input
@@ -53,39 +52,20 @@ function ThrottledScrollBookSearch() {
           value={query ?? ""}
           onChange={handleSearch}
           placeholder="Search for books..."
-          style={{
-            padding: "6px 10px",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-            width: "200px",
-            fontSize: "14px",
-          }}
+          className={styles.searchInput}
         />
       </div>
 
-      <div>
+      <div className={styles.bookList}>
         {books.map((book, index) => (
-          <div
-            key={`${book}-${index}`}
-            style={{
-              padding: "6px 0",
-              borderBottom: "1px solid #eee",
-              fontSize: "14px",
-            }}
-          >
+          <div key={`${book}-${index}`} className={styles.bookItem}>
             {book}
           </div>
         ))}
       </div>
 
-      {loading && (
-        <div style={{ padding: "10px", textAlign: "center" }}>Loading...</div>
-      )}
-      {error && (
-        <div style={{ padding: "10px", textAlign: "center", color: "red" }}>
-          Error occurred
-        </div>
-      )}
+      {loading && <div className={styles.loadingMessage}>Loading...</div>}
+      {error && <div className={styles.errorMessage}>Error occurred</div>}
     </div>
   );
 }
