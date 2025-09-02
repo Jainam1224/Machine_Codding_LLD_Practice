@@ -14,7 +14,7 @@ function VirtualizedProductPagination() {
 
   // Simple virtualization settings
   const ITEM_HEIGHT = 320; // Height of each product card
-  const ITEMS_PER_ROW = 4; // Items per row (can be made responsive later)
+  const ITEMS_PER_ROW = 3; // Items per row (can be made responsive later)
   const CONTAINER_HEIGHT = 600; // Visible container height
   const BUFFER = 2; // Extra rows to render above/below
 
