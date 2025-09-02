@@ -3,11 +3,12 @@ import ScrollEventProductPagination from "./ScrollEventProductPagination";
 import ButtonTriggerProductPagination from "./ButtonTriggerProductPagination";
 import ThrottledScrollProductPagination from "./ThrottledScrollProductPagination";
 import IntersectionObserverProductPagination from "./IntersectionObserverProductPagination";
+import CursorBasedProductPagination from "./CursorBasedProductPagination";
 import VirtualizedProductPagination from "./VirtualizedProductPagination";
 import styles from "./ProductPaginationDemo.module.css";
 
 function ProductPaginationDemo() {
-  const [activeMethod, setActiveMethod] = useState("virtualized");
+  const [activeMethod, setActiveMethod] = useState("cursor-based");
 
   const methods = [
     {
@@ -18,11 +19,18 @@ function ProductPaginationDemo() {
         "Performance optimized - only renders visible products in DOM",
     },
     {
+      id: "cursor-based",
+      name: "Cursor-Based Pagination",
+      component: CursorBasedProductPagination,
+      description:
+        "Cursor-based pagination with intersection observer - more efficient for large datasets",
+    },
+    {
       id: "intersection-observer",
-      name: "Intersection Observer",
+      name: "Intersection Observer (Offset)",
       component: IntersectionObserverProductPagination,
       description:
-        "Most performant - automatically loads when reaching last product",
+        "Offset-based pagination - automatically loads when reaching last product",
     },
     {
       id: "scroll-event",
