@@ -1,0 +1,99 @@
+/* Shared styles for all pagination methods */
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.title {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.description {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.productCount {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.loadingMessage {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.errorMessage {
+  text-align: center;
+  padding: 12px;
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 6px;
+  margin: 16px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.successMessage {
+  text-align: center;
+  padding: 12px;
+  color: #2e7d32;
+  background: #e8f5e8;
+  border-radius: 6px;
+  margin: 16px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Method-specific info styles */
+.methodInfo {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.debugInfo {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+/* Virtualized container styles */
+.virtualizedContainer {
+  height: 600px;
+  overflow: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  position: relative;
+  background: #fafafa;
+}
+
+.virtualizedContent {
+  position: relative;
+}
+
+.virtualizedItem {
+  position: absolute;
+  padding: 8px;
+  box-sizing: border-box;
+}

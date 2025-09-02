@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
-import styles from "./ScrollEventProductPagination.module.css";
+import styles from "./SharedPagination.module.css";
 
 function ScrollEventProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);

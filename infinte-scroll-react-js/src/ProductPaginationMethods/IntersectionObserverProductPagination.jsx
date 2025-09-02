@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
-import styles from "./IntersectionObserverProductPagination.module.css";
+import styles from "./SharedPagination.module.css";
 
 function IntersectionObserverProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -36,7 +36,7 @@ function IntersectionObserverProductPagination() {
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>
-        <div className={styles.apiInfo}>
+        <div className={styles.methodInfo}>
           Uses Intersection Observer API for optimal performance
         </div>
       </div>

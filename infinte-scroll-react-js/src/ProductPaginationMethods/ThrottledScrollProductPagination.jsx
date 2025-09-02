@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
-import styles from "./ThrottledScrollProductPagination.module.css";
+import styles from "./SharedPagination.module.css";
 
 function ThrottledScrollProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -64,10 +64,10 @@ function ThrottledScrollProductPagination() {
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>
-        <div className={styles.throttleInfo}>
+        <div className={styles.methodInfo}>
           Throttled to 300ms for better reliability
         </div>
-        <div className={styles.scrollThreshold}>
+        <div className={styles.methodInfo}>
           Scroll threshold: 500px from bottom
         </div>
         <div className={styles.debugInfo}>

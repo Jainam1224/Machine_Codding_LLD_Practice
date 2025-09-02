@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
-import styles from "./ButtonTriggerProductPagination.module.css";
+import styles from "./SharedPagination.module.css";
 
 function ButtonTriggerProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);

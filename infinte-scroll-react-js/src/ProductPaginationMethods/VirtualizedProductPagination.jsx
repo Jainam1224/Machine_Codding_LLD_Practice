@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useMemo } from "react";
 import useProductSearch from "./useProductSearch";
 import ProductCard from "./ProductCard";
-import styles from "./VirtualizedProductPagination.module.css";
+import styles from "./SharedPagination.module.css";
 
 function VirtualizedProductPagination() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -91,13 +91,13 @@ function VirtualizedProductPagination() {
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>
-        <div className={styles.domInfo}>
+        <div className={styles.methodInfo}>
           DOM contains only {visibleProducts.length} product cards
         </div>
-        <div className={styles.visibleRows}>
+        <div className={styles.methodInfo}>
           Visible rows: {visibleRange.startRow + 1} - {visibleRange.endRow + 1}
         </div>
-        <div className={styles.totalRows}>
+        <div className={styles.methodInfo}>
           Total rows: {totalRows} | Items per row: {ITEMS_PER_ROW}
         </div>
       </div>
