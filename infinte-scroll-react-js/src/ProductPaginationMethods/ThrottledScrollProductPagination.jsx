@@ -57,22 +57,8 @@ function ThrottledScrollProductPagination() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Throttled Scroll Method</h3>
-        <p className={styles.description}>
-          Scroll down to automatically load more products (throttled for
-          performance)
-        </p>
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
-        </div>
-        <div className={styles.methodInfo}>
-          Throttled to 300ms for better reliability
-        </div>
-        <div className={styles.methodInfo}>
-          Scroll threshold: 500px from bottom
-        </div>
-        <div className={styles.debugInfo}>
-          Current page: {pageNumber} | Has more: {hasMore ? "Yes" : "No"} |
-          Loading: {loading ? "Yes" : "No"}
         </div>
       </div>
 

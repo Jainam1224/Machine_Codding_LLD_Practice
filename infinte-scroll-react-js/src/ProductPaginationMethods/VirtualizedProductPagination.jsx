@@ -85,9 +85,6 @@ function VirtualizedProductPagination() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Virtualized Infinite Scroll</h3>
-        <p className={styles.description}>
-          Performance optimized - only renders visible products in DOM
-        </p>
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>

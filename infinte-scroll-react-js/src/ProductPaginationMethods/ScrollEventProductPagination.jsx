@@ -29,9 +29,6 @@ function ScrollEventProductPagination() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Scroll Event Method</h3>
-        <p className={styles.description}>
-          Scroll down to automatically load more products
-        </p>
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>

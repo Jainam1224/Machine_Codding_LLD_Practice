@@ -29,15 +29,8 @@ function IntersectionObserverProductPagination() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Intersection Observer Method</h3>
-        <p className={styles.description}>
-          Most performant method - automatically loads when you reach the last
-          product
-        </p>
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
-        </div>
-        <div className={styles.methodInfo}>
-          Uses Intersection Observer API for optimal performance
         </div>
       </div>
 

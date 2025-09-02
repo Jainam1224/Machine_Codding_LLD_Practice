@@ -18,9 +18,6 @@ function ButtonTriggerProductPagination() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Button Trigger Method</h3>
-        <p className={styles.description}>
-          Click the button below to load more products
-        </p>
         <div className={styles.productCount}>
           Showing {products.length} of {totalProducts} products
         </div>

@@ -15,12 +15,6 @@
   font-weight: 600;
 }
 
-.description {
-  margin: 0 0 8px 0;
-  color: #666;
-  font-size: 14px;
-}
-
 .productCount {
   margin-top: 8px;
   font-size: 12px;
@@ -70,12 +64,6 @@
   margin-top: 4px;
   font-size: 11px;
   color: #aaa;
-}
-
-.debugInfo {
-  margin-top: 4px;
-  font-size: 11px;
-  color: #888;
 }
 
 /* Virtualized container styles */
