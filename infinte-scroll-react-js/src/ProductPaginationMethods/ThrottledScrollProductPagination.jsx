@@ -11,8 +11,12 @@ function ThrottledScrollProductPagination() {
 
   // Throttled scroll handler
   const handleScroll = useCallback(() => {
-    if (throttleTimeoutRef.current) return; // Skip if throttled
+    // Clear existing timeout
+    if (throttleTimeoutRef.current) {
+      clearTimeout(throttleTimeoutRef.current);
+    }
 
+    // Set new timeout
     throttleTimeoutRef.current = setTimeout(() => {
       // Check if we're near the bottom
       if (
@@ -24,34 +28,18 @@ function ThrottledScrollProductPagination() {
         }
       }
       throttleTimeoutRef.current = null;
-    }, 300); // Increased throttle to 300ms for better reliability
+    }, 300); // Throttle to 300ms
   }, [hasMore, loading]);
 
   useEffect(() => {
-    const scrollHandler = () => {
-      // Check if we're near the bottom immediately (without throttling)
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 500
-      ) {
-        if (hasMore && !loading) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        }
-      }
-    };
-
-    // Add both immediate and throttled handlers for better reliability
-    window.addEventListener("scroll", scrollHandler, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
-
     return () => {
-      window.removeEventListener("scroll", scrollHandler);
       window.removeEventListener("scroll", handleScroll);
       if (throttleTimeoutRef.current) {
         clearTimeout(throttleTimeoutRef.current);
       }
     };
-  }, [handleScroll, hasMore, loading]);
+  }, [handleScroll]);
 
   return (
     <div className={styles.container}>
