@@ -1,0 +1,153 @@
+.file-explorer {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  background: white;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.file-tree {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 1px 0;
+  position: relative;
+}
+
+.file-item:hover {
+  background-color: #f5f5f5;
+}
+
+.file-item:hover .file-actions {
+  opacity: 1;
+}
+
+.file-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.file-name {
+  flex: 1;
+}
+
+.file-rename-input {
+  flex: 1;
+  padding: 2px 4px;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  font-size: 14px;
+  background: white;
+}
+
+.file-add-input {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  margin: 1px 0;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px dashed #007bff;
+}
+
+.file-add-input-field {
+  flex: 1;
+  padding: 2px 4px;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  font-size: 14px;
+  background: white;
+  margin-left: 8px;
+}
+
+.file-add-input-field:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.file-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  margin-left: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.rename-btn:hover {
+  background-color: #fff3cd;
+}
+
+.add-file-btn:hover,
+.add-folder-btn:hover {
+  background-color: #d4edda;
+}
+
+.delete-btn:hover {
+  background-color: #f8d7da;
+}
+
+/* Demo Styles */
+.file-explorer-demo-container {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 10px;
+}
+
+.file-explorer-demo-container h2 {
+  margin: 0 0 15px 0;
+}
+
+.demo-section {
+  margin-bottom: 15px;
+}
+
+.demo-description {
+  margin: 10px 0;
+  color: #666;
+}
+
+.demo-features,
+.demo-concepts {
+  margin: 15px 0;
+}
+
+.demo-features h3,
+.demo-concepts h3 {
+  margin: 10px 0 5px 0;
+  font-size: 16px;
+}
+
+.demo-features ul,
+.demo-concepts ul {
+  margin: 5px 0;
+  padding-left: 20px;
+  color: #666;
+}
+
+.demo-features li,
+.demo-concepts li {
+  margin: 5px 0;
+}
