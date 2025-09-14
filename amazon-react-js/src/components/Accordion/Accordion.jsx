@@ -31,20 +31,16 @@ export default function Accordion({ items, allowMultiple = false }) {
           <button
             className="accordion-header"
             onClick={() => toggleItem(index)}
-            aria-expanded={openItems.has(index)}
           >
             <span>{item.title}</span>
             <span
               className={`accordion-icon ${openItems.has(index) ? "open" : ""}`}
-              aria-hidden="true"
             >
               ▼
             </span>
           </button>
           {openItems.has(index) && (
-            <div className="accordion-content" role="region">
-              {item.content}
-            </div>
+            <div className="accordion-content">{item.content}</div>
           )}
         </div>
       ))}

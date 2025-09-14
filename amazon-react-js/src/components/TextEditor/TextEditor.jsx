@@ -65,15 +65,10 @@ export default function TextEditor() {
     <div className="text-editor-container">
       <h2>Text Editor</h2>
 
-      <div
-        className="editor-toolbar"
-        role="toolbar"
-        aria-label="Text formatting toolbar"
-      >
+      <div className="editor-toolbar">
         <button
           onClick={() => formatText("bold")}
           className="toolbar-btn"
-          aria-label="Make text bold"
           title="Bold (Ctrl+B)"
         >
           <strong>B</strong>
@@ -81,7 +76,6 @@ export default function TextEditor() {
         <button
           onClick={() => formatText("italic")}
           className="toolbar-btn"
-          aria-label="Make text italic"
           title="Italic (Ctrl+I)"
         >
           <em>I</em>
@@ -89,7 +83,6 @@ export default function TextEditor() {
         <button
           onClick={() => formatText("uppercase")}
           className="toolbar-btn"
-          aria-label="Convert to uppercase"
           title="Uppercase"
         >
           Aa
@@ -97,7 +90,6 @@ export default function TextEditor() {
         <button
           onClick={() => formatText("lowercase")}
           className="toolbar-btn"
-          aria-label="Convert to lowercase"
           title="Lowercase"
         >
           aa
@@ -112,14 +104,9 @@ export default function TextEditor() {
             min="8"
             max="72"
             className="size-input"
-            aria-label="Font size"
           />
         </label>
-        <button
-          onClick={clearText}
-          className="clear-btn"
-          aria-label="Clear all text"
-        >
+        <button onClick={clearText} className="clear-btn">
           Clear
         </button>
       </div>
@@ -132,11 +119,10 @@ export default function TextEditor() {
           placeholder="Start typing your text here..."
           className="editor-textarea"
           style={{ fontSize: `${fontSize}px` }}
-          aria-label="Text editor"
         />
       </div>
 
-      <div className="editor-stats" role="status" aria-live="polite">
+      <div className="editor-stats">
         <div className="stat-item">
           <span className="stat-label">Words</span>
           <span className="stat-value">{stats.wordCount}</span>

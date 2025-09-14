@@ -51,22 +51,14 @@ const WhatsAppLastSeen = () => {
     <div className="whatsapp-container">
       <h2>WhatsApp Last Seen</h2>
       <div className="whatsapp-user-info">
-        <div className="user-avatar" aria-hidden="true">
-          {userInfo.avatar}
-        </div>
+        <div className="user-avatar">{userInfo.avatar}</div>
         <div className="user-details">
           <div className="user-name">
             <strong>{userInfo.name}</strong>
           </div>
-          <div className="last-seen" aria-live="polite">
-            Last seen {relativeTime}
-          </div>
+          <div className="last-seen">Last seen {relativeTime}</div>
         </div>
-        <button
-          className="update-button"
-          onClick={updateLastSeen}
-          aria-label="Update last seen time"
-        >
+        <button className="update-button" onClick={updateLastSeen}>
           Update Last Seen
         </button>
       </div>

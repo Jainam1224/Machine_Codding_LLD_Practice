@@ -22,11 +22,8 @@ export default function LikeButton({
     <button
       className={`like-button ${isLiked ? "liked" : ""}`}
       onClick={handleLike}
-      aria-label={`${isLiked ? "Unlike" : "Like"} (${likeCount} likes)`}
     >
-      <span className="like-icon" aria-hidden="true">
-        {isLiked ? "❤️" : "🤍"}
-      </span>
+      <span className="like-icon">{isLiked ? "❤️" : "🤍"}</span>
       <span className="like-count">{likeCount}</span>
     </button>
   );

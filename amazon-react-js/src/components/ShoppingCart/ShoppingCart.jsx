@@ -64,12 +64,7 @@ export default function ShoppingCart() {
             <span>
               {product.name} - ${product.price.toFixed(2)}
             </span>
-            <button
-              onClick={() => addToCart(product)}
-              aria-label={`Add ${product.name} to cart`}
-            >
-              Add to Cart
-            </button>
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>
@@ -79,7 +74,7 @@ export default function ShoppingCart() {
           Cart ({totalItems} item{totalItems !== 1 ? "s" : ""})
         </h3>
         {cart.length === 0 ? (
-          <p role="status">Your cart is empty</p>
+          <p>Your cart is empty</p>
         ) : (
           <div>
             {cart.map((item) => (
@@ -89,27 +84,18 @@ export default function ShoppingCart() {
                 </span>
                 <button
                   onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                  aria-label={`Decrease quantity of ${item.name}`}
                 >
                   -
                 </button>
                 <button
                   onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  aria-label={`Increase quantity of ${item.name}`}
                 >
                   +
                 </button>
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  aria-label={`Remove ${item.name} from cart`}
-                >
-                  Remove
-                </button>
+                <button onClick={() => removeFromCart(item.id)}>Remove</button>
               </div>
             ))}
-            <div className="total" role="status" aria-live="polite">
-              Total: ${totalPrice.toFixed(2)}
-            </div>
+            <div className="total">Total: ${totalPrice.toFixed(2)}</div>
           </div>
         )}
       </div>

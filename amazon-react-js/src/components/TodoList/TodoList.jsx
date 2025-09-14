@@ -11,7 +11,7 @@ export default function TodoList() {
       setTodos((prev) => [
         ...prev,
         {
-          id: Date.now(),
+          id: Date.now() + Math.random(),
           text: trimmedTodo,
           completed: false,
         },
@@ -30,6 +30,12 @@ export default function TodoList() {
 
   const deleteTodo = useCallback((id) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  }, []);
+
+  const editTodo = useCallback((id, newText) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+    );
   }, []);
 
   const completedCount = useMemo(
@@ -74,6 +80,7 @@ export default function TodoList() {
               todo={todo}
               onToggle={toggleTodo}
               onDelete={deleteTodo}
+              onEdit={editTodo}
             />
           ))
         )}
@@ -90,14 +97,47 @@ export default function TodoList() {
   );
 }
 
-const TodoItem = ({ todo, onToggle, onDelete }) => {
+const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(todo.text);
+
   const handleToggle = useCallback(
     () => onToggle(todo.id),
     [todo.id, onToggle]
   );
+
   const handleDelete = useCallback(
     () => onDelete(todo.id),
     [todo.id, onDelete]
+  );
+
+  const handleEdit = useCallback(() => {
+    setIsEditing(true);
+    setEditText(todo.text);
+  }, [todo.text]);
+
+  const handleSave = useCallback(() => {
+    const trimmedText = editText.trim();
+    if (trimmedText && trimmedText !== todo.text) {
+      onEdit(todo.id, trimmedText);
+    }
+    setIsEditing(false);
+  }, [editText, todo.id, todo.text, onEdit]);
+
+  const handleCancel = useCallback(() => {
+    setEditText(todo.text);
+    setIsEditing(false);
+  }, [todo.text]);
+
+  const handleKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSave();
+      } else if (e.key === "Escape") {
+        handleCancel();
+      }
+    },
+    [handleSave, handleCancel]
   );
 
   return (
@@ -107,18 +147,43 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
         checked={todo.completed}
         onChange={handleToggle}
         className="todo-checkbox"
-        aria-label={`Mark "${todo.text}" as ${
-          todo.completed ? "incomplete" : "complete"
-        }`}
       />
-      <span className="todo-text">{todo.text}</span>
-      <button
-        onClick={handleDelete}
-        className="delete-btn"
-        aria-label={`Delete "${todo.text}"`}
-      >
-        Delete
-      </button>
+      {isEditing ? (
+        <input
+          type="text"
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+          onKeyDown={handleKeyPress}
+          onBlur={handleSave}
+          className="edit-input"
+          autoFocus
+        />
+      ) : (
+        <span className="todo-text" onClick={handleEdit}>
+          {todo.text}
+        </span>
+      )}
+      <div className="todo-actions">
+        {isEditing ? (
+          <>
+            <button onClick={handleSave} className="edit-btn">
+              Save
+            </button>
+            <button onClick={handleCancel} className="delete-btn">
+              Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={handleEdit} className="edit-btn">
+              Edit
+            </button>
+            <button onClick={handleDelete} className="delete-btn">
+              Delete
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

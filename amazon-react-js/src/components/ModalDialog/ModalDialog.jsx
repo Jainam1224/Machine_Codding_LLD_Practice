@@ -55,22 +55,11 @@ function ModalDialogImpl({ children, title, onClose }) {
   }, [handleKeyDown, handleClickOutside, onClose]);
 
   return createPortal(
-    <div
-      className="modal-overlay"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-    >
+    <div className="modal-overlay">
       <div ref={modalRef} className="modal">
-        <h1 id="modal-title" className="modal-title">
-          {title}
-        </h1>
+        <h1 className="modal-title">{title}</h1>
         <div className="modal-content">{children}</div>
-        <button
-          className="modal-close"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
+        <button className="modal-close" onClick={onClose}>
           Close
         </button>
       </div>

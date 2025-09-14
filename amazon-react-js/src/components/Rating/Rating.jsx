@@ -48,9 +48,6 @@ export default function Rating({
             }`}
             onClick={() => handleStarClick(starValue)}
             onMouseEnter={() => handleStarHover(starValue)}
-            role={readOnly ? "img" : "button"}
-            aria-label={`${starValue} star${starValue > 1 ? "s" : ""}`}
-            tabIndex={readOnly ? -1 : 0}
           >
             ★
           </span>
@@ -60,12 +57,12 @@ export default function Rating({
   );
 
   return (
-    <div className="rating-container" role="radiogroup" aria-label="Rating">
+    <div className="rating-container">
       <div className="stars" onMouseLeave={handleMouseLeave}>
         {stars}
       </div>
       {rating > 0 && (
-        <span className="rating-text" aria-live="polite">
+        <span className="rating-text">
           {rating} out of {maxStars} stars
         </span>
       )}
