@@ -1,23 +1,21 @@
 .infinite-scroll-container {
   border: 1px solid #ddd;
-  padding: 20px;
-  margin: 10px;
-  max-height: 400px;
+  padding: 10px;
+  margin: 5px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
 .items-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
 .item {
-  padding: 15px;
+  padding: 8px;
   border: 1px solid #eee;
-  border-radius: 4px;
   background: #f9f9f9;
-  transition: background-color 0.2s ease;
 }
 
 .item:hover {
@@ -28,27 +26,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  min-height: 50px;
+  padding: 10px;
+  min-height: 30px;
 }
 
 .loading-spinner {
   color: #666;
   font-style: italic;
-  animation: pulse 1.5s ease-in-out infinite;
 }
 
 .end-message {
   color: #999;
   font-style: italic;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
 }

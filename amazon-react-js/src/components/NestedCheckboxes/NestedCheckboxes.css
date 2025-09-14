@@ -1,7 +1,7 @@
 .nested-checkboxes-container {
   border: 1px solid #ddd;
-  padding: 20px;
-  margin: 10px;
+  padding: 10px;
+  margin: 5px;
 }
 
 .checkboxes-list {
@@ -9,23 +9,22 @@
 }
 
 .checkbox-item {
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 2px 0;
   user-select: none;
 }
 
 .checkbox-label:hover {
   background-color: #f5f5f5;
-  border-radius: 4px;
-  padding: 4px 8px;
-  margin: 0 -8px;
+  padding: 2px 5px;
+  margin: 0 -5px;
 }
 
 .checkbox-input {
@@ -34,10 +33,10 @@
 }
 
 .checkbox-text {
-  font-size: 14px;
+  font-size: 12px;
   color: #333;
 }
 
 .children {
-  margin-top: 4px;
+  margin-top: 2px;
 }

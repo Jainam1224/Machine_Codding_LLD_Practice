@@ -1,14 +1,13 @@
 .like-button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   background: none;
   border: 1px solid #ddd;
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 15px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
 .like-button:hover {
@@ -23,16 +22,11 @@
 }
 
 .like-icon {
-  font-size: 18px;
-  transition: transform 0.2s ease;
-}
-
-.like-button:hover .like-icon {
-  transform: scale(1.1);
+  font-size: 16px;
 }
 
 .like-count {
   font-weight: 500;
-  min-width: 20px;
+  min-width: 15px;
   text-align: center;
 }

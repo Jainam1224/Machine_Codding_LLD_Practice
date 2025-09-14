@@ -1,25 +1,23 @@
 .multi-select-container {
   border: 1px solid #ddd;
-  padding: 20px;
-  margin: 10px;
+  padding: 10px;
+  margin: 5px;
 }
 
 .multi-select-wrapper {
   position: relative;
-  max-width: 400px;
+  max-width: 300px;
 }
 
 .multi-select-input {
-  min-height: 40px;
+  min-height: 30px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 12px;
+  padding: 5px 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: white;
-  transition: border-color 0.2s ease;
 }
 
 .multi-select-input:hover {
@@ -29,7 +27,7 @@
 .selected-values {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 3px;
   flex: 1;
   align-items: center;
 }
@@ -37,12 +35,12 @@
 .selected-tag {
   background-color: #e3f2fd;
   color: #1976d2;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 10px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .remove-tag {
@@ -50,10 +48,10 @@
   border: none;
   color: #1976d2;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   padding: 0;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,17 +65,16 @@
 
 .more-count {
   color: #666;
-  font-size: 12px;
+  font-size: 10px;
   font-style: italic;
 }
 
 .placeholder-text {
   color: #999;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .dropdown-arrow {
-  transition: transform 0.3s ease;
   color: #666;
 }
 
@@ -93,23 +90,20 @@
   background: white;
   border: 1px solid #ddd;
   border-top: none;
-  border-radius: 0 0 4px 4px;
-  max-height: 300px;
+  max-height: 200px;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .search-input-container {
-  padding: 8px;
+  padding: 5px;
   border-bottom: 1px solid #eee;
 }
 
 .search-input {
   width: 100%;
-  padding: 6px 8px;
+  padding: 3px 5px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .search-input:focus {
@@ -119,19 +113,17 @@
 
 .dropdown-actions {
   display: flex;
-  gap: 8px;
-  padding: 8px;
+  gap: 5px;
+  padding: 5px;
   border-bottom: 1px solid #eee;
 }
 
 .action-button {
-  padding: 4px 8px;
+  padding: 3px 6px;
   border: 1px solid #ddd;
   background: white;
   cursor: pointer;
-  border-radius: 4px;
-  font-size: 12px;
-  transition: all 0.2s ease;
+  font-size: 10px;
 }
 
 .action-button:hover {
@@ -149,17 +141,16 @@
 }
 
 .options-list {
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
 }
 
 .option-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 5px;
+  padding: 5px 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .option-item:hover {
@@ -177,6 +168,6 @@
 }
 
 .option-text {
-  font-size: 14px;
+  font-size: 12px;
   flex: 1;
 }
