@@ -1,55 +1,33 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  justify-content: center;
-  align-items: center;
-  color: #333;
-}
-
 #app {
   text-align: center;
-  background: white;
-  padding: 2rem;
 }
 
 h1 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  margin-bottom: 20px;
+  font-size: 32px;
 }
 
 .controls {
-  margin-bottom: 2rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  border: none;
+  font-size: 16px;
+  background: blue;
   border-radius: 5px;
-  background: #007bff;
+  border: none;
   color: white;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 button:hover {
-  background: #0056b3;
+  background-color: darkblue;
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
-
 #status {
   font-size: 1rem;
   font-weight: bold;
@@ -73,12 +51,11 @@ button:disabled {
   width: 100px;
   height: 100px;
   border-radius: 8px;
-  border: 2px solid #ccc;
+  border: 2px solid;
   cursor: pointer;
-  transition: all 0.2s;
-  background: #f8f9fa;
   display: flex;
   align-items: center;
+  background: #f8f9fa;
   justify-content: center;
   font-weight: bold;
   font-size: 1.5rem;
@@ -86,34 +63,28 @@ button:disabled {
   position: relative;
 }
 
-.cell:hover {
-  border-color: #007bff;
-  background: #e7f3ff;
-}
-
-.cell.active {
-  background: #28a745;
-  border-color: #28a745;
-  color: white;
-  font-size: 2rem;
-  font-weight: 900;
-}
-
-.cell.inactive {
-  background: #f8f9fa;
-  border-color: #ccc;
-  color: #6c757d;
-}
-
 .cell.hidden {
   visibility: hidden;
   cursor: default;
 }
 
-.cell.deactivating {
-  background: #dc3545;
-  border-color: #dc3545;
+.cell.active {
+  background: green;
+  border-color: green;
   color: white;
-  font-size: 2rem;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.cell.inactive {
+  background: white;
+  border-color: black;
+}
+
+.cell.deactivating {
+  background: red;
+  border-color: red;
+  color: white;
+  font-size: 16px;
   font-weight: 900;
 }
