@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import useTraverseTree from "./useTraverseTree";
 
 const explorer = {
   id: "1",
@@ -14,7 +13,7 @@ const explorer = {
       items: [
         {
           id: "3",
-          name: "public nested 1",
+          name: "public nested folder",
           isFolder: true,
           items: [
             {
@@ -33,7 +32,7 @@ const explorer = {
         },
         {
           id: "6",
-          name: "public_nested_file",
+          name: "public nested file",
           isFolder: false,
           items: [],
         },
@@ -52,13 +51,7 @@ const explorer = {
         },
         {
           id: "9",
-          name: "Index.js",
-          isFolder: false,
-          items: [],
-        },
-        {
-          id: "10",
-          name: "styles.css",
+          name: "index.js",
           isFolder: false,
           items: [],
         },
@@ -73,38 +66,175 @@ const explorer = {
   ],
 };
 
-const FileExplorer = ({ explorerData, handleInsertNode }) => {
+function useTraverseTree() {
+  const insertNode = (tree, folderId, item, isFolder) => {
+    if (tree.id === folderId && tree.isFolder) {
+      return {
+        ...tree,
+        items: [
+          {
+            id: new Date().getTime(),
+            name: item,
+            isFolder: isFolder,
+            items: [],
+          },
+          ...tree.items,
+        ],
+      };
+    }
+
+    if (tree.items && tree.items.length > 0) {
+      const updatedItems = tree.items.map((childNode) =>
+        insertNode(childNode, folderId, item, isFolder)
+      );
+
+      return {
+        ...tree,
+        items: updatedItems,
+      };
+    }
+
+    return tree;
+  };
+
+  const updateNode = (tree, nodeId, newName) => {
+    if (tree.id === nodeId) {
+      return {
+        ...tree,
+        name: newName,
+      };
+    }
+
+    if (tree.items && tree.items.length > 0) {
+      const updatedItems = tree.items.map((childNode) =>
+        updateNode(childNode, nodeId, newName)
+      );
+
+      return {
+        ...tree,
+        items: updatedItems,
+      };
+    }
+
+    return tree;
+  };
+
+  const deleteNode = (tree, nodeId) => {
+    if (tree.items && tree.items.length > 0) {
+      const filteredItems = tree.items.filter(
+        (childNode) => childNode.id !== nodeId
+      );
+
+      if (filteredItems.length !== tree.items.length) {
+        return {
+          ...tree,
+          items: filteredItems,
+        };
+      }
+
+      const updatedItems = tree.items.map((childNode) =>
+        deleteNode(childNode, nodeId)
+      );
+
+      return {
+        ...tree,
+        items: updatedItems,
+      };
+    }
+
+    return tree;
+  };
+
+  return { insertNode, updateNode, deleteNode };
+}
+
+function FileExplorer({
+  explorerData,
+  handleInsertNode,
+  handleUpdateNode,
+  handleDeleteNode,
+}) {
   const [expand, setExpand] = useState(false);
   const [showInput, setShowInput] = useState({
     visible: false,
     isFolder: false,
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(explorerData.name);
 
   const handleNewFolder = (e, isFolder) => {
     e.stopPropagation();
     setExpand(true);
-    setShowInput({
-      visible: true,
-      isFolder,
-    });
+    setShowInput({ visible: true, isFolder });
   };
 
-  const onAddFolder = (e) => {
-    if (e.keyCode === 13 && e.target.value) {
+  const onAddNode = (e) => {
+    if (e.key === "Enter" && e.target.value) {
       handleInsertNode(explorerData.id, e.target.value, showInput.isFolder);
-
       setShowInput({ ...showInput, visible: false });
     }
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    setIsEditing(true);
+    setEditValue(explorerData.name);
+  };
+
+  const handleSaveEdit = (e) => {
+    if (e.key === "Enter" && e.target.value.trim()) {
+      handleUpdateNode(explorerData.id, e.target.value.trim());
+      setIsEditing(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditValue(explorerData.name);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    handleDeleteNode(explorerData.id);
   };
 
   if (explorerData.isFolder) {
     return (
       <div>
         <div className="folder" onClick={() => setExpand(!expand)}>
-          <span>🗂️ {explorerData.name}</span>
+          {isEditing ? (
+            <div className="edit-container">
+              <span>🗂️</span>
+              <input
+                type="text"
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                onKeyDown={handleSaveEdit}
+                onBlur={handleCancelEdit}
+                autoFocus
+                className="edit-input"
+              />
+            </div>
+          ) : (
+            <span>🗂️ {explorerData.name}</span>
+          )}
           <div className="buttons">
-            <button onClick={(e) => handleNewFolder(e, true)}>Folder +</button>
-            <button onClick={(e) => handleNewFolder(e, false)}>File +</button>
+            {!isEditing && (
+              <>
+                <button onClick={(e) => handleNewFolder(e, true)}>
+                  Folder +
+                </button>
+                <button onClick={(e) => handleNewFolder(e, false)}>
+                  File +
+                </button>
+                <button onClick={handleEdit} className="edit-btn">
+                  Edit
+                </button>
+                <button onClick={handleDelete} className="delete-btn">
+                  Delete
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -112,25 +242,25 @@ const FileExplorer = ({ explorerData, handleInsertNode }) => {
           <div className="folder-lists">
             {showInput.visible && (
               <div className="inputContainer">
-                <span>{showInput.isFolder ? "🗂️" : "📁"}</span>
+                <span>{showInput.isFolder ? "🗂️" : "📄"}</span>
                 <input
                   type="text"
-                  className="inputContainer__input"
                   autoFocus
-                  onKeyDown={onAddFolder}
+                  value={showInput.value}
+                  onKeyDown={onAddNode}
                   onBlur={() => setShowInput({ ...showInput, visible: false })}
                 />
               </div>
             )}
-
             {explorerData.items.map((exp) => {
               return (
-                <div key={exp.id}>
-                  <FileExplorer
-                    handleInsertNode={handleInsertNode}
-                    explorerData={exp}
-                  />
-                </div>
+                <FileExplorer
+                  key={exp.id}
+                  explorerData={exp}
+                  handleInsertNode={handleInsertNode}
+                  handleUpdateNode={handleUpdateNode}
+                  handleDeleteNode={handleDeleteNode}
+                />
               );
             })}
           </div>
@@ -138,24 +268,66 @@ const FileExplorer = ({ explorerData, handleInsertNode }) => {
       </div>
     );
   } else {
-    return <span className="file">📁 {explorerData.name}</span>;
+    return (
+      <div className="file-container">
+        {isEditing ? (
+          <div className="edit-container">
+            <span>📁</span>
+            <input
+              type="text"
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={handleSaveEdit}
+              onBlur={handleCancelEdit}
+              autoFocus
+              className="edit-input"
+            />
+          </div>
+        ) : (
+          <span className="file">📁 {explorerData.name}</span>
+        )}
+        {!isEditing && (
+          <div className="file-buttons">
+            <button onClick={handleEdit} className="edit-btn">
+              Edit
+            </button>
+            <button onClick={handleDelete} className="delete-btn">
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
+    );
   }
-};
+}
 
 function App() {
   const [explorerData, setExplorerData] = useState(explorer);
-  const { insertNode } = useTraverseTree();
+  const { insertNode, updateNode, deleteNode } = useTraverseTree();
 
   const handleInsertNode = (folderId, item, isFolder) => {
     const finalTree = insertNode(explorerData, folderId, item, isFolder);
     setExplorerData(finalTree);
   };
+
+  const handleUpdateNode = (nodeId, newName) => {
+    const finalTree = updateNode(explorerData, nodeId, newName);
+    setExplorerData(finalTree);
+  };
+
+  const handleDeleteNode = (nodeId) => {
+    const finalTree = deleteNode(explorerData, nodeId);
+    setExplorerData(finalTree);
+  };
+
   return (
     <div>
       <h1>File Explorer</h1>
       <FileExplorer
         explorerData={explorerData}
         handleInsertNode={handleInsertNode}
+        handleUpdateNode={handleUpdateNode}
+        handleDeleteNode={handleDeleteNode}
       />
     </div>
   );
