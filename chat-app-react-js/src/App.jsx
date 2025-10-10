@@ -52,7 +52,7 @@ const DUMMY_MESSAGES = [
 
 // Message component
 const Message = ({ message, isCurrentUser, user }) => (
-  <div className={`message ${isCurrentUser ? "current-user" : "other-user"}`}>
+  <div className={`message ${isCurrentUser ? "current-user" : ""}`}>
     <div className="message-avatar">{user.avatar}</div>
     <div className="message-content">
       <div className="message-header">
@@ -95,7 +95,6 @@ const MessageInput = ({ onSendMessage }) => {
 // Main Chat App component
 const ChatApp = () => {
   const [messages, setMessages] = useState(DUMMY_MESSAGES);
-  const [onlineUsers] = useState(DUMMY_USERS.otherUsers);
 
   const handleSendMessage = (text) => {
     const newMessage = {
@@ -122,16 +121,6 @@ const ChatApp = () => {
       {/* Header */}
       <div className="chat-header">
         <h1>Team Chat</h1>
-        <div className="online-users">
-          <span>Online: {onlineUsers.length + 1}</span>
-          <div className="user-avatars">
-            {onlineUsers.map((user) => (
-              <span key={user.id} className="user-avatar" title={user.name}>
-                {user.avatar}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Messages */}

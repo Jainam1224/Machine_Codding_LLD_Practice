@@ -21,17 +21,6 @@ body {
   color: white;
 }
 
-.online-users {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.user-avatars {
-  display: flex;
-  gap: 0.25rem;
-}
-
 .messages-container {
   flex: 1;
   overflow-y: auto;
